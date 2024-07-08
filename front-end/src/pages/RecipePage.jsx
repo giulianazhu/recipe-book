@@ -1,3 +1,9 @@
+import RecipeDetails from "../features/recipes/RecipeDetails";
+
 export default function RecipePage() {
-  return <div>RecipePage</div>;
+  return (
+    <div>
+      <RecipeDetails />
+    </div>
+  );
 }

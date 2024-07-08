@@ -8,8 +8,7 @@ export async function getComments() {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
@@ -22,8 +21,7 @@ export async function getRecipeComments(recipeId) {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
@@ -55,7 +53,7 @@ export async function updateComment(id, data) {
       throw new Error(`Response status: ${res.status}`);
     }
     const result = await res.json();
-    console.log("Success:", result);
+    return { status: res.status, result };
   } catch (err) {
     console.err(err.message);
   }
@@ -70,7 +68,7 @@ export async function deleteComment(id) {
       throw new Error(`Response status: ${res.status}`);
     }
     const result = await res.json();
-    console.log("Success:", result);
+    return { status: res.status, result };
   } catch (err) {
     console.err(err.message);
   }

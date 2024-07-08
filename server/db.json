@@ -351,6 +351,20 @@
       "dietId": "3",
       "difficultyId": "1",
       "image": "/uploads/Pasta-Primavera-f.jpg"
+    },
+    {
+      "id": "1720452500842",
+      "name": "Broccoli",
+      "ingredients": [
+        "broccoli",
+        " eggs",
+        " water"
+      ],
+      "instructions": "Boil the broccolis",
+      "cuisineId": "1",
+      "dietId": "1",
+      "difficultyId": "1",
+      "image": "/uploads/1720452500828.jpg"
     }
   ],
   "comments": [

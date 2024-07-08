@@ -1,3 +1,9 @@
+import Search from "../features/recipes/Search";
+
 export default function SearchPage() {
-  return <div>SearchPage</div>;
+  return (
+    <div>
+      <Search />
+    </div>
+  );
 }

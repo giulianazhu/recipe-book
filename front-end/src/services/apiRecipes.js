@@ -1,3 +1,4 @@
+import { getRecipeComments } from "./apiComments";
 import { urlport } from "./config";
 
 export async function getRecipes() {
@@ -7,8 +8,7 @@ export async function getRecipes() {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
@@ -21,8 +21,9 @@ export async function getRecipe(id) {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
+    // const comments = await getRecipeComments(data.id);
+    // return{ ...data, comments };
   } catch (err) {
     console.err(err.message);
   }
@@ -54,7 +55,7 @@ export async function updateRecipe(id, data) {
       throw new Error(`Response status: ${res.status}`);
     }
     const result = await res.json();
-    console.log("Success:", result);
+    return { status: res.status, result };
   } catch (err) {
     console.err(err.message);
   }
@@ -69,7 +70,7 @@ export async function deleteRecipe(id) {
       throw new Error(`Response status: ${res.status}`);
     }
     const result = await res.json();
-    console.log("Success:", result);
+    return { status: res.status, result };
   } catch (err) {
     console.err(err.message);
   }

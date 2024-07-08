@@ -7,8 +7,7 @@ export async function getCuisines() {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
@@ -21,8 +20,7 @@ export async function getDiets() {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
@@ -35,8 +33,7 @@ export async function getDifficulties() {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
-    console.log(data);
-    console.log(data[0]);
+    return data;
   } catch (err) {
     console.err(err.message);
   }
