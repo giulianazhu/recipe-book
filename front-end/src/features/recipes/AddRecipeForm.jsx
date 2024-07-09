@@ -1,14 +1,17 @@
 import useAddRecipe from "./useAddRecipe";
+import useFilters from "./useFilters";
 
 export default function AddRecipeForm() {
+  const { cuisines, diets, difficulties } = useFilters();
+
   const { mutate: handleAddRecipe, isPending } = useAddRecipe();
 
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
     handleAddRecipe(formData);
   }
 
@@ -20,13 +23,25 @@ export default function AddRecipeForm() {
       <input type="text" name="ingredients" />
       <input type="text" name="instructions" />
       <select name="cuisineId" id="">
-        <option value={1}>Italian</option>
+        {cuisines.map((cuisine) => (
+          <option value={cuisine.id} key={cuisine.id}>
+            {cuisine.name}
+          </option>
+        ))}
       </select>
       <select name="dietId" id="">
-        <option value={1}>Vegetarian</option>
+        {diets.map((diet) => (
+          <option value={diet.id} key={diet.id}>
+            {diet.name}
+          </option>
+        ))}
       </select>
       <select name="difficultyId" id="">
-        <option value={1}>Easy</option>
+        {difficulties.map((difficulty) => (
+          <option value={difficulty.id} key={difficulty.id}>
+            {difficulty.name}
+          </option>
+        ))}
       </select>
       <input type="file" name="image" />
       <button>Submit</button>

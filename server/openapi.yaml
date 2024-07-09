@@ -51,14 +51,14 @@ paths:
               enum: [difficulty, cuisine, diet]
           description: Embed relation in the data, this add difficulty, cuisine, diet object directy in the response
       responses:
-        '200':
+        "200":
           description: A list of recipes
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Recipe'
+                  $ref: "#/components/schemas/Recipe"
     post:
       summary: Add a new recipe
       requestBody:
@@ -85,7 +85,7 @@ paths:
                   type: string
                   format: binary
       responses:
-        '201':
+        "201":
           description: Recipe created successfully
 
   /recipes/{id}:
@@ -107,12 +107,12 @@ paths:
               enum: [difficulty, cuisine, diet]
           description: Embed relation in the data, this add difficulty, cuisine, diet object directy in the response
       responses:
-        '200':
+        "200":
           description: Detailed information about the recipe
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: "#/components/schemas/Recipe"
 
   /recipes/{id}/comments:
     post:
@@ -138,7 +138,7 @@ paths:
                   type: string
                   format: date-time
       responses:
-        '201':
+        "201":
           description: Comment and rating added successfully
     get:
       summary: Get all comments and ratings for a specific recipe
@@ -150,53 +150,53 @@ paths:
             type: string
           description: The unique identifier of the recipe
       responses:
-        '200':
+        "200":
           description: A list of comments and ratings for the recipe
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Comment'
+                  $ref: "#/components/schemas/Comment"
 
   /cuisines:
     get:
       summary: Get a list of all available cuisines
       responses:
-        '200':
+        "200":
           description: A list of cuisines
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cuisine'
+                  $ref: "#/components/schemas/Cuisine"
 
   /difficulties:
     get:
       summary: Get a list of all available difficulty levels
       responses:
-        '200':
+        "200":
           description: A list of difficulty levels
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Difficulty'
+                  $ref: "#/components/schemas/Difficulty"
 
   /diets:
     get:
       summary: Get a list of all available diets preferences
       responses:
-        '200':
+        "200":
           description: A list of diets preferences
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Diet'
+                  $ref: "#/components/schemas/Diet"
 
   /uploads/{imageName}:
     get:
@@ -209,10 +209,10 @@ paths:
             type: string
           description: The image name
       responses:
-        '200':
+        "200":
           description: The image
           content:
-            image/*:     # Media type
+            image/*: # Media type
               schema:
                 type: string
                 format: binary

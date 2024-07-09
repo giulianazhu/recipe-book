@@ -1,13 +1,36 @@
-import { getRecipeComments } from "./apiComments";
+import { formatParams } from "../utils/utils";
 import { urlport } from "./config";
 
 export async function getRecipes() {
   try {
-    const res = await fetch(`${urlport}/recipes`);
+    const res = await fetch(
+      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet`
+    );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
     }
     const data = await res.json();
+    console.log("data returned", data);
+    return data;
+  } catch (err) {
+    console.err(err.message);
+  }
+}
+
+export async function getFilterRecipes(params) {
+  if (params === "all" || !params) return getRecipes();
+
+  const queryParams = formatParams(params);
+  // console.log(queryParams);
+  try {
+    const res = await fetch(
+      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet`
+    );
+    if (!res.ok) {
+      throw new Error(`Response status: ${res.status}`);
+    }
+    const data = await res.json();
+    console.log(data);
     return data;
   } catch (err) {
     console.err(err.message);
@@ -28,6 +51,27 @@ export async function getRecipe(id) {
     console.err(err.message);
   }
 }
+
+// export async function filterRecipes(params) {
+//   const searchParams = new URLSearchParams();
+//   for (let param in params) {
+//     params[param] && searchParams.append(param, params[param]);
+//   }
+
+//   try {
+//     const res = await fetch(
+//       `${urlport}/recipes?${params && searchParams.toString()}`
+//     );
+//     if (!res.ok) {
+//       throw new Error(`Response status: ${res.status}`);
+//     }
+//     const data = await res.json();
+//     console.log(data);
+//     return data;
+//   } catch (err) {
+//     console.err(err.message);
+//   }
+// }
 
 export async function addRecipe(data) {
   try {
