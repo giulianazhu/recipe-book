@@ -1,10 +1,11 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { formatParams } from "../utils/utils";
 import { urlport } from "./config";
 
-export async function getRecipes() {
+export async function getRecipes(page = 1, limit = PAGE_SIZE) {
   try {
     const res = await fetch(
-      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet`
+      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${limit}`
     );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -17,14 +18,14 @@ export async function getRecipes() {
   }
 }
 
-export async function getFilterRecipes(params) {
-  if (params === "all" || !params) return getRecipes();
+export async function getFilterRecipes(params, page = 1, limit = PAGE_SIZE) {
+  if (params === "all" || !params) return getRecipes(page);
 
   const queryParams = formatParams(params);
   // console.log(queryParams);
   try {
     const res = await fetch(
-      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet`
+      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${limit}`
     );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -51,27 +52,6 @@ export async function getRecipe(id) {
     console.err(err.message);
   }
 }
-
-// export async function filterRecipes(params) {
-//   const searchParams = new URLSearchParams();
-//   for (let param in params) {
-//     params[param] && searchParams.append(param, params[param]);
-//   }
-
-//   try {
-//     const res = await fetch(
-//       `${urlport}/recipes?${params && searchParams.toString()}`
-//     );
-//     if (!res.ok) {
-//       throw new Error(`Response status: ${res.status}`);
-//     }
-//     const data = await res.json();
-//     console.log(data);
-//     return data;
-//   } catch (err) {
-//     console.err(err.message);
-//   }
-// }
 
 export async function addRecipe(data) {
   try {
@@ -119,3 +99,24 @@ export async function deleteRecipe(id) {
     console.err(err.message);
   }
 }
+
+// export async function filterRecipes(params) {
+//   const searchParams = new URLSearchParams();
+//   for (let param in params) {
+//     params[param] && searchParams.append(param, params[param]);
+//   }
+
+//   try {
+//     const res = await fetch(
+//       `${urlport}/recipes?${params && searchParams.toString()}`
+//     );
+//     if (!res.ok) {
+//       throw new Error(`Response status: ${res.status}`);
+//     }
+//     const data = await res.json();
+//     console.log(data);
+//     return data;
+//   } catch (err) {
+//     console.err(err.message);
+//   }
+// }

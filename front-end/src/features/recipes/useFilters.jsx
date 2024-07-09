@@ -18,5 +18,6 @@ export default function useFilters() {
     cuisines: cuisines.data,
     diets: diets.data,
     difficulties: difficulties.data,
+    isPending: cuisines.isPending || diets.isPending || difficulties.isPending,
   };
 }
