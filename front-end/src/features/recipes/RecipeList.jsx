@@ -42,7 +42,7 @@ export default function RecipeList({
             ))}
           </ul>
         ) : (
-          <h2>Loading...</h2>
+          <h2>{isPending && "Loading..."}</h2>
         )}
       </div>
     </div>

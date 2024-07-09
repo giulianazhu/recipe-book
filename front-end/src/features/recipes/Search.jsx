@@ -1,6 +1,3 @@
-import { NavLink } from "react-router-dom";
-import { urlport } from "../../services/config";
-import useFilters from "./useFilters";
 import { useState } from "react";
 import useFilterRecipes from "./useFilterRecipes";
 import SearchBox from "./SearchBox";
@@ -23,6 +20,7 @@ export default function Search() {
     }
     // console.log(filtersObj);
     setFilters(filtersObj);
+    setPage(1); //manually setting page to 1 --> can consider redux for future
   }
 
   function nextPage() {
