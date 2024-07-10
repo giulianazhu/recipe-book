@@ -2,7 +2,6 @@ import useAddRecipe from "./useAddRecipe";
 import useFilters from "../search/useFilters";
 
 export default function AddRecipeForm() {
-  // using empty array coz not using suspense or loading... will change it
   const { cuisines, diets, difficulties } = useFilters();
 
   const { mutate: handleAddRecipe, isPending } = useAddRecipe();

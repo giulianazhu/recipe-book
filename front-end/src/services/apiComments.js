@@ -5,12 +5,14 @@ export async function getComments() {
   try {
     const res = await fetch(`${urlport}/comments`);
     if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
+      throw new Error(
+        `Response status: ${res.status}. Could not fetch comments`
+      );
     }
     const data = await res.json();
     return data;
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
   }
 }
 
@@ -18,12 +20,14 @@ export async function getRecipeComments(recipeId) {
   try {
     const res = await fetch(`${urlport}/comments?recipeId=${recipeId}`);
     if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
+      throw new Error(
+        `Response status: ${res.status}. Could not fetch recipe comments`
+      );
     }
     const data = await res.json();
     return data;
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
   }
 }
 
@@ -38,7 +42,7 @@ export async function addComment(recipeId, data) {
       body: JSON.stringify(data),
     });
     if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
+      throw new Error(`Response status: ${res.status}. Could not add comments`);
     }
     const result = await res.json();
     console.log("Success:", result);
@@ -54,12 +58,14 @@ export async function updateComment(id, data) {
       body: data,
     });
     if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
+      throw new Error(
+        `Response status: ${res.status}. Could not update comments`
+      );
     }
     const result = await res.json();
     return { status: res.status, result };
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
   }
 }
 
@@ -69,11 +75,13 @@ export async function deleteComment(id) {
       method: "DELETE",
     });
     if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
+      throw new Error(
+        `Response status: ${res.status}. Could not delete comments`
+      );
     }
     const result = await res.json();
     return { status: res.status, result };
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
   }
 }

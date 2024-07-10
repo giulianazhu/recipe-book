@@ -5,14 +5,15 @@ import RecipeList from "./RecipeList";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export default function RecipeSearch() {
-  const [filters, setFilters] = useState("all"); //can prefetch useRecipe at home page
+  const [filters, setFilters] = useState("all");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
 
   const {
     data: recipes,
     isPending,
-    isFetching,
+    isError,
+    error,
   } = useFilterRecipes(filters, page, pageSize);
 
   console.log(pageSize);
@@ -47,6 +48,7 @@ export default function RecipeSearch() {
     setPageSize(val);
   }
 
+  if (isError) return <ErrorModal />;
   return (
     <>
       <SearchBox handleSubmit={handleSubmit} />

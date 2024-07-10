@@ -3,7 +3,7 @@ import { addRecipe } from "../../services/apiRecipes";
 
 export default function useAddRecipe() {
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: addRecipe,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
@@ -12,5 +12,5 @@ export default function useAddRecipe() {
       console.err(err);
     },
   });
-  return { mutate, isPending };
+  return { mutate, isPending, isError, error };
 }
