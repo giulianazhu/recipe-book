@@ -27,11 +27,15 @@ export async function getRecipeComments(recipeId) {
   }
 }
 
-export async function addComment(data) {
+export async function addComment(recipeId, data) {
   try {
-    const res = await fetch(`${urlport}/comments`, {
+    console.log("addCommmentAPI", data); //undefined dk why
+    const res = await fetch(`${urlport}/recipes/${recipeId}/comments`, {
       method: "POST",
-      body: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -39,7 +43,7 @@ export async function addComment(data) {
     const result = await res.json();
     console.log("Success:", result);
   } catch (err) {
-    console.err(err.message);
+    console.error(err.message);
   }
 }
 

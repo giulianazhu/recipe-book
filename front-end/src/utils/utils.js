@@ -6,3 +6,12 @@ export function formatParams(params) {
   }
   return queryParams.toString();
 }
+
+export function calcArrObjValAvg(arr, property) {
+  let avg = 0;
+  for (let el of arr) {
+    avg += el[property];
+  }
+  avg /= arr.length;
+  return avg.toFixed(1);
+}

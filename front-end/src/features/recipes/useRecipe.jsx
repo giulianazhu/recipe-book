@@ -1,9 +1,9 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getRecipe } from "../../services/apiRecipes";
 import { getRecipeComments } from "../../services/apiComments";
 
 export default function useRecipe(recipeId) {
-  const { data: recipes, isPending: isPendingRecipe } = useQuery({
+  const { data: recipe, isPending: isPendingRecipe } = useQuery({
     queryKey: ["recipes", recipeId],
     queryFn: () => getRecipe(recipeId),
   });
@@ -11,8 +11,9 @@ export default function useRecipe(recipeId) {
     queryKey: ["comments", recipeId],
     queryFn: () => getRecipeComments(recipeId),
   });
+
   return {
-    data: { ...recipes, comments },
+    data: { ...recipe, comments },
     isPending: isPendingRecipe || isPendingComments,
   };
 }
