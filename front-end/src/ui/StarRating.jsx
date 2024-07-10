@@ -2,18 +2,19 @@ import Rating from "@mui/material/Rating";
 
 export default function StarRating({
   disabled = false,
+  readOnly = false,
   name = "rating",
-  handleRating,
-  value = 0,
+  isPending,
+  onChange,
+  value,
 }) {
   return (
-    <div>
-      <Rating
-        disabled={disabled}
-        name={name}
-        defaultValue={value}
-        onChange={(e) => handleRating(parseInt(e.target.value))}
-      />
-    </div>
+    <Rating
+      name={name}
+      disabled={disabled || isPending}
+      readOnly={readOnly}
+      onChange={onChange}
+      value={parseInt(value)}
+    />
   );
 }

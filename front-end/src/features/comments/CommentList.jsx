@@ -12,7 +12,7 @@ export default function CommentList({ comments }) {
       <div>
         {comments.map((comment) => (
           <li key={comment.id}>
-            <StarRating disabled={true} value={parseInt(comment.rating)} />
+            <StarRating readOnly={true} value={parseInt(comment.rating)} />
             {`${comment.id}. ${comment.comment}`}
           </li>
         ))}
