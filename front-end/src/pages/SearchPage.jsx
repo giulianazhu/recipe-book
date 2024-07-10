@@ -1,9 +1,9 @@
-import Search from "../features/recipes/Search";
+import RecipeSearch from "../features/recipes/RecipeSearch";
 
 export default function SearchPage() {
   return (
     <div>
-      <Search />
+      <RecipeSearch />
     </div>
   );
 }

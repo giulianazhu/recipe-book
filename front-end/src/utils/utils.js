@@ -15,3 +15,9 @@ export function calcArrObjValAvg(arr, property) {
   avg /= arr.length;
   return avg.toFixed(1);
 }
+
+export function calcPageItems(page, pageSize) {
+  let tot = 0;
+  tot = page * pageSize;
+  return tot;
+}

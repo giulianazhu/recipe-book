@@ -1,17 +1,12 @@
 import { useState } from "react";
 import useAddComment from "./useAddComment";
-import StarRating from "../../ui/StarRating";
-import { calcArrObjValAvg } from "../../utils/utils";
+import CommentForm from "./CommentForm";
+import CommentList from "./CommentList";
 
 export default function Comment({ comments, recipeId }) {
   const [rating, setRating] = useState(0);
   console.log("rating", rating);
-  const { mutate: handleAddComment, isPending: isAdding } =
-    useAddComment(recipeId);
-
-  const avgRating = calcArrObjValAvg(comments, "rating");
-  console.log(avgRating);
-  //  sometimes fail to get comments ==> cannot iterate on second render sometimes
+  const { mutate: handleAddComment, isPending } = useAddComment(recipeId);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -29,27 +24,15 @@ export default function Comment({ comments, recipeId }) {
   function handleRating(val) {
     setRating(val);
   }
+
   return (
     <div>
-      <h2>{comments.length} user reviews</h2>
-      <span>Average rating: {avgRating} </span>
-      <div>
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            <StarRating disabled={true} value={parseInt(comment.rating)} />
-            {`${comment.id}. ${comment.comment}`}
-          </li>
-        ))}
-      </div>
-      <div>
-        <h4>Rate the recipe</h4>
-        <h4>Post a Comment</h4>
-        <form onSubmit={handleSubmit}>
-          <StarRating handleRating={handleRating} name="rating" />
-          <textarea name="comment" id=""></textarea>
-          <button>Post</button>
-        </form>
-      </div>
+      <CommentList comments={comments} />
+      <CommentForm
+        handleSubmit={handleSubmit}
+        handleRating={handleRating}
+        isPending={isPending}
+      />
     </div>
   );
 }

@@ -365,6 +365,32 @@
       "dietId": "1",
       "difficultyId": "1",
       "image": "/uploads/1720452500828.jpg"
+    },
+    {
+      "id": "1720611461024",
+      "name": "Unaju",
+      "ingredients": [
+        "Eel",
+        " rice",
+        " teriyaki sauce"
+      ],
+      "instructions": "Just cook ",
+      "cuisineId": "5",
+      "dietId": "4",
+      "difficultyId": "3",
+      "image": "/uploads/1720611459380.jpg"
+    },
+    {
+      "id": "1720611489907",
+      "name": "test ",
+      "ingredients": [
+        "testsegasgdd"
+      ],
+      "instructions": "setasdfasdf",
+      "cuisineId": "3",
+      "dietId": "1",
+      "difficultyId": "1",
+      "image": "/uploads/1720611484339.jpg"
     }
   ],
   "comments": [
@@ -563,6 +589,13 @@
       "date": "2024-07-10T09:21:17.731Z",
       "recipeId": "1",
       "id": "PQw6oZe"
+    },
+    {
+      "rating": 5,
+      "comment": "Test comment again !",
+      "date": "2024-07-10T12:12:55.946Z",
+      "recipeId": "1",
+      "id": "zZhyoSD"
     }
   ],
   "cuisines": [

@@ -2,10 +2,10 @@ import { PAGE_SIZE } from "../utils/constants";
 import { formatParams } from "../utils/utils";
 import { urlport } from "./config";
 
-export async function getRecipes(page = 1, limit = PAGE_SIZE) {
+export async function prefetchRecipes() {
   try {
     const res = await fetch(
-      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${limit}`
+      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet`
     );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);
@@ -18,14 +18,30 @@ export async function getRecipes(page = 1, limit = PAGE_SIZE) {
   }
 }
 
-export async function getFilterRecipes(params, page = 1, limit = PAGE_SIZE) {
-  if (params === "all" || !params) return getRecipes(page);
+export async function getRecipes(page = 1, pageSize = PAGE_SIZE) {
+  try {
+    const res = await fetch(
+      `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
+    );
+    if (!res.ok) {
+      throw new Error(`Response status: ${res.status}`);
+    }
+    const data = await res.json();
+    console.log("data returned", data);
+    return data;
+  } catch (err) {
+    console.err(err.message);
+  }
+}
+
+export async function getFilterRecipes(params, page = 1, pageSize = PAGE_SIZE) {
+  if (params === "all" || !params) return getRecipes(page, pageSize);
 
   const queryParams = formatParams(params);
   // console.log(queryParams);
   try {
     const res = await fetch(
-      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${limit}`
+      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
     );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}`);

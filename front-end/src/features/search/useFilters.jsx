@@ -1,4 +1,4 @@
-import { useQueries, useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import {
   getCuisines,
   getDiets,
@@ -6,7 +6,7 @@ import {
 } from "../../services/apiFilters";
 
 export default function useFilters() {
-  const [cuisines, diets, difficulties] = useQueries({
+  const [cuisines, diets, difficulties] = useSuspenseQueries({
     queries: [
       { queryKey: ["cuisines"], queryFn: getCuisines },
       { queryKey: ["diets"], queryFn: getDiets },

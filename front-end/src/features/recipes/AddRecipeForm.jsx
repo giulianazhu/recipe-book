@@ -1,7 +1,8 @@
 import useAddRecipe from "./useAddRecipe";
-import useFilters from "./useFilters";
+import useFilters from "../search/useFilters";
 
 export default function AddRecipeForm() {
+  // using empty array coz not using suspense or loading... will change it
   const { cuisines, diets, difficulties } = useFilters();
 
   const { mutate: handleAddRecipe, isPending } = useAddRecipe();
@@ -14,8 +15,6 @@ export default function AddRecipeForm() {
     // }
     handleAddRecipe(formData);
   }
-
-  if (isPending) return <div>Loading...</div>;
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -44,7 +43,7 @@ export default function AddRecipeForm() {
         ))}
       </select>
       <input type="file" name="image" />
-      <button>Submit</button>
+      <button>{isPending ? "Submitting" : "Submit"}</button>
     </form>
   );
 }

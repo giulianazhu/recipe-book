@@ -1,16 +1,11 @@
-import { useState } from "react";
-import { getComments, getRecipeComments } from "../services/apiComments";
-import { getCuisines, getDiets, getDifficulties } from "../services/apiFilters";
-import { deleteRecipe, getRecipe, getRecipes } from "../services/apiRecipes";
+import { NavLink } from "react-router-dom";
+import usePrefetchRecipes from "../features/recipes/usePrefetchRecipes";
 
 export default function HomePage() {
-  async function handleClick() {
-    const data = await getRecipe(17);
-    console.log(data);
-  }
+  usePrefetchRecipes();
   return (
     <div>
-      <button onClick={handleClick}>get data</button>
+      <NavLink to="/search">Explore</NavLink>
     </div>
   );
 }

@@ -21,9 +21,9 @@ function App() {
       <ReactQueryDevtools initialIsOpen={true} />
       <BrowserRouter>
         <Routes>
+          <Route index element={<Navigate replace to="home" />} />
+          <Route path="home" element={<HomePage />} />
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="home" />} />
-            <Route path="home" element={<HomePage />} />
             <Route path="add" element={<AddPage />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="search/:id" element={<RecipePage />} />

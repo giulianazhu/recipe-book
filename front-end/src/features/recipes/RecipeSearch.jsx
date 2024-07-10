@@ -1,12 +1,21 @@
 import { useState } from "react";
 import useFilterRecipes from "./useFilterRecipes";
-import SearchBox from "./SearchBox";
+import SearchBox from "../search/SearchBox";
 import RecipeList from "./RecipeList";
+import { PAGE_SIZE } from "../../utils/constants";
 
-export default function Search() {
+export default function RecipeSearch() {
   const [filters, setFilters] = useState("all"); //can prefetch useRecipe at home page
   const [page, setPage] = useState(1);
-  const { data: recipes, isPending } = useFilterRecipes(filters, page);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+
+  const {
+    data: recipes,
+    isPending,
+    isFetching,
+  } = useFilterRecipes(filters, page, pageSize);
+
+  console.log(pageSize);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,7 +27,6 @@ export default function Search() {
         filtersObj[key] = value;
       }
     }
-    // console.log(filtersObj);
     setFilters(filtersObj);
     setPage(1); //manually setting page to 1 --> can consider redux for future
   }
@@ -35,6 +43,10 @@ export default function Search() {
     }
   }
 
+  function handlePageSize(val) {
+    setPageSize(val);
+  }
+
   return (
     <>
       <SearchBox handleSubmit={handleSubmit} />
@@ -44,6 +56,7 @@ export default function Search() {
         prevPage={prevPage}
         page={page}
         isPending={isPending}
+        handlePageSize={handlePageSize}
       />
     </>
   );
