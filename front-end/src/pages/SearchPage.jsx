@@ -1,9 +1,10 @@
 import RecipeSearch from "../features/recipes/RecipeSearch";
+import { StyledPage } from "../styles/StyledComponents";
 
 export default function SearchPage() {
   return (
-    <main>
+    <StyledPage as="main">
       <RecipeSearch />
-    </main>
+    </StyledPage>
   );
 }

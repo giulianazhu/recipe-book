@@ -1,10 +1,11 @@
 import { useState } from "react";
 import useFilterRecipes from "./useFilterRecipes";
-import SearchBox from "../search/SearchBox";
 import RecipeList from "./RecipeList";
 import { pageSizeOptions } from "../../utils/constants";
 import styled from "styled-components";
 import { device } from "../../styles/optionStyles";
+import { scrollTop } from "../../utils/utils";
+import SearchBox from "../search/SearchBox";
 
 export const StyledDashboard = styled.div`
   padding-inline: 3em;
@@ -13,7 +14,12 @@ export const StyledDashboard = styled.div`
   gap: 1em;
   @media (max-width: ${device.md}) {
     grid-template-columns: 1fr;
+    padding-inline: 2em;
   }
+`;
+
+export const StyledSearchBox = styled.div`
+  border: 2px black solid;
 `;
 
 export default function RecipeSearch() {
@@ -44,10 +50,12 @@ export default function RecipeSearch() {
 
   function nextPage() {
     if (page < totPages) setPage((prev) => prev + 1);
+    scrollTop();
   }
 
   function prevPage() {
     setPage((prev) => Math.max(prev - 1, 1));
+    scrollTop();
   }
 
   function handlePageSize(val) {

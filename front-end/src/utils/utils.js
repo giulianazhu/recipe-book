@@ -30,3 +30,7 @@ export function filterByProperties(data, filtersObj) {
   });
   return filteredData;
 }
+
+export function scrollTop() {
+  window.scrollTo({ top: 0, behaviour: "smooth" });
+}

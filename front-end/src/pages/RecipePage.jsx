@@ -1,9 +1,10 @@
 import RecipeDetails from "../features/recipes/RecipeDetails";
+import { StyledPage } from "../styles/StyledComponents";
 
 export default function RecipePage() {
   return (
-    <main>
+    <StyledPage as="main">
       <RecipeDetails />
-    </main>
+    </StyledPage>
   );
 }
