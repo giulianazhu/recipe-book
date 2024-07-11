@@ -1,12 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getFilterRecipes } from "../../services/apiRecipes";
-import { PAGE_SIZE } from "../../utils/constants";
+import { pageSizeOptions } from "../../utils/constants";
 import { calcPageItems, filterByProperties } from "../../utils/utils";
 
 export default function useFilterRecipes(
   filters = "all",
   page = 1,
-  pageSize = PAGE_SIZE
+  pageSize = pageSizeOptions[0]
 ) {
   const queryClient = useQueryClient();
 

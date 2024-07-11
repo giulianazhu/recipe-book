@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "../utils/constants";
+import { pageSizeOptions } from "../utils/constants";
 import { formatParams } from "../utils/utils";
 import { urlport } from "./config";
 
@@ -20,7 +20,7 @@ export async function prefetchRecipes() {
   }
 }
 
-export async function getRecipes(page = 1, pageSize = PAGE_SIZE) {
+export async function getRecipes(page = 1, pageSize = pageSizeOptions[0]) {
   try {
     const res = await fetch(
       `${urlport}/recipes?_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
@@ -40,7 +40,11 @@ export async function getRecipes(page = 1, pageSize = PAGE_SIZE) {
   }
 }
 
-export async function getFilterRecipes(params, page = 1, pageSize = PAGE_SIZE) {
+export async function getFilterRecipes(
+  params,
+  page = 1,
+  pageSize = pageSizeOptions[0]
+) {
   if (params === "all" || !params) return getRecipes(page, pageSize);
 
   const queryParams = formatParams(params);

@@ -170,6 +170,7 @@ img {
 
 nav, footer, main{ //aka outermost containers ==> nav, footer, pages 
   padding-inline: 2rem;
+  padding-block: 1em;
 }
 
 `;

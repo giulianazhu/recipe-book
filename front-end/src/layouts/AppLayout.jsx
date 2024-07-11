@@ -13,7 +13,7 @@ const StyledAppLayout = styled.div`
   max-height: max-content;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background-color: #f1ddc8; //to be removed
+  background-color: var(--color-orange-100); //to be removed
 `;
 
 export default function AppLayout() {

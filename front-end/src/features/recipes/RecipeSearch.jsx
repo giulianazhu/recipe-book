@@ -2,12 +2,24 @@ import { useState } from "react";
 import useFilterRecipes from "./useFilterRecipes";
 import SearchBox from "../search/SearchBox";
 import RecipeList from "./RecipeList";
-import { PAGE_SIZE } from "../../utils/constants";
+import { pageSizeOptions } from "../../utils/constants";
+import styled from "styled-components";
+import { device } from "../../styles/optionStyles";
+
+export const StyledDashboard = styled.div`
+  padding-inline: 3em;
+  display: grid;
+  grid-template-columns: 1fr minmax(70%, 1fr);
+  gap: 1em;
+  @media (max-width: ${device.md}) {
+    grid-template-columns: 1fr;
+  }
+`;
 
 export default function RecipeSearch() {
   const [filters, setFilters] = useState("all");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+  const [pageSize, setPageSize] = useState(pageSizeOptions[0]);
 
   const {
     data: { data: recipes, totCount, totPages },
@@ -43,7 +55,7 @@ export default function RecipeSearch() {
   }
 
   return (
-    <>
+    <StyledDashboard>
       <SearchBox handleSubmit={handleSubmit} />
       <RecipeList
         recipes={recipes}
@@ -53,8 +65,9 @@ export default function RecipeSearch() {
         prevPage={prevPage}
         page={page}
         isPending={isPending}
+        pageSize={pageSize}
         handlePageSize={handlePageSize}
       />
-    </>
+    </StyledDashboard>
   );
 }

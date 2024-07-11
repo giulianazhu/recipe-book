@@ -1,11 +1,22 @@
+import styled from "styled-components";
 import useFilters from "./useFilters";
+import { device } from "../../styles/optionStyles";
+import { StyledHeading } from "../../ui/Heading";
+import { StyledBox } from "../../ui/Box";
+
+const StyledSearchBox = styled(StyledBox)`
+  @media (max-width: ${device.md}) {
+    display: none;
+  }
+`;
 
 export default function SearchBox({ handleSubmit }) {
   const { cuisines, diets, difficulties, isPending } = useFilters();
   if (isPending) return <h1>Loading</h1>;
 
   return (
-    <div>
+    <StyledSearchBox>
+      <StyledHeading as="h2">Search Recipe </StyledHeading>
       <form onSubmit={handleSubmit}>
         <label htmlFor="">Search</label>
         <input type="text" name="name" />
@@ -58,6 +69,6 @@ export default function SearchBox({ handleSubmit }) {
         </div>
         <button>Search</button>
       </form>
-    </div>
+    </StyledSearchBox>
   );
 }

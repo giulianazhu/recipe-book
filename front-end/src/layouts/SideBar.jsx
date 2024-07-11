@@ -1,14 +1,15 @@
 import styled, { css } from "styled-components";
-import { device } from "../styles/breakpoints";
+import { device } from "../styles/optionStyles";
 import { StyledToggler } from "./NavBar";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useRef } from "react";
 import useOutClick from "../hooks/useOutClick";
+import SearchBox from "../features/search/SearchBox";
+import useFilters from "../features/search/useFilters";
 
 const StyledSideBar = styled.nav`
   position: fixed;
   z-index: 100;
-  padding-block: 1.2em;
   min-height: 100vh;
   height: 100%;
   overflow: auto;

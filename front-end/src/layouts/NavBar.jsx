@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { device } from "../styles/breakpoints";
+import { device } from "../styles/optionStyles";
 
 const StyledNavBar = styled.nav`
   position: sticky;
   top: 0;
   z-index: 50;
-  padding-block: 1.2em;
   display: flex;
   align-items: center;
   gap: 2em;
