@@ -6,6 +6,7 @@ import AddPage from "./pages/AddPage";
 import SearchPage from "./pages/SearchPage";
 import RecipePage from "./pages/RecipePage";
 import AppLayout from "./layouts/AppLayout";
+import GlobalStyles from "../src/styles/globalStyles";
 
 function App() {
   const queryClient = new QueryClient({
@@ -19,6 +20,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={true} />
+      <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route index element={<Navigate replace to="home" />} />

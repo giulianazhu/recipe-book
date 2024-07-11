@@ -4,8 +4,8 @@ import usePrefetchRecipes from "../features/recipes/usePrefetchRecipes";
 export default function HomePage() {
   usePrefetchRecipes();
   return (
-    <div>
+    <main>
       <NavLink to="/search">Explore</NavLink>
-    </div>
+    </main>
   );
 }

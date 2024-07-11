@@ -16,7 +16,7 @@ export default function RecipeList({
 
   return (
     <div>
-      <h2>Results: {totCount} found</h2>
+      <h2>Total Recipes: {totCount}</h2>
       <div>
         {pageSizeOptions.map((size) => (
           <button key={size} onClick={() => handlePageSize(size)}>
