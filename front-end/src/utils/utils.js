@@ -21,3 +21,12 @@ export function calcPageItems(page, pageSize) {
   tot = page * pageSize;
   return tot;
 }
+
+export function filterByProperties(data, filtersObj) {
+  let filteredData = data.filter((recipe) => {
+    return Object.keys(filtersObj).every((filterKey) => {
+      return recipe[filterKey] === filtersObj[filterKey];
+    });
+  });
+  return filteredData;
+}

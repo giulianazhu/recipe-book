@@ -10,13 +10,11 @@ export default function RecipeSearch() {
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
 
   const {
-    data: recipes,
+    data: { data: recipes, totCount, totPages },
     isPending,
-    isError,
-    error,
   } = useFilterRecipes(filters, page, pageSize);
 
-  console.log(pageSize);
+  console.log(recipes);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,27 +31,24 @@ export default function RecipeSearch() {
   }
 
   function nextPage() {
-    setPage((prev) => prev + 1);
+    if (page < totPages) setPage((prev) => prev + 1);
   }
 
   function prevPage() {
-    if (page > 1) {
-      setPage((prev) => prev - 1);
-    } else {
-      return;
-    }
+    setPage((prev) => Math.max(prev - 1, 1));
   }
 
   function handlePageSize(val) {
     setPageSize(val);
   }
 
-  if (isError) return <ErrorModal />;
   return (
     <>
       <SearchBox handleSubmit={handleSubmit} />
       <RecipeList
         recipes={recipes}
+        totCount={totCount}
+        totPages={totPages}
         nextPage={nextPage}
         prevPage={prevPage}
         page={page}

@@ -3,7 +3,9 @@ import { urlport } from "../../services/config";
 import { pageSizeOptions } from "../../utils/constants";
 
 export default function RecipeList({
-  recipes = [],
+  recipes,
+  totCount,
+  totPages,
   nextPage,
   prevPage,
   page,
@@ -11,16 +13,11 @@ export default function RecipeList({
   handlePageSize,
 }) {
   if (isPending) return <h2>Searching...</h2>;
+
   return (
     <div>
-      <h2>Results</h2>
+      <h2>Results: {totCount} found</h2>
       <div>
-        <span>Curr page: {page} </span>
-        <button onClick={prevPage}>prevPage</button>
-        <button onClick={nextPage}>nextPage</button>
-      </div>
-      <div>
-        <span>Showing {recipes.length} results</span>
         {pageSizeOptions.map((size) => (
           <button key={size} onClick={() => handlePageSize(size)}>
             Show 0 - {size} results
@@ -50,6 +47,15 @@ export default function RecipeList({
             </li>
           ))}
         </ul>
+      </div>
+      <div>
+        <span>Curr page: {page} </span>
+        <button onClick={prevPage} disabled={page === 1}>
+          prevPage
+        </button>
+        <button onClick={nextPage} disabled={page === totPages}>
+          nextPage
+        </button>
       </div>
     </div>
   );

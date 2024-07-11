@@ -31,8 +31,10 @@ export async function getRecipes(page = 1, pageSize = PAGE_SIZE) {
       );
     }
     const data = await res.json();
-    console.log("data returned", data);
-    return data;
+    const totCount = res.headers.get("X-Total-Count");
+    const totPages = Math.ceil(totCount / pageSize);
+    console.log("data returned", data, totCount, totPages);
+    return { data, totCount, totPages };
   } catch (err) {
     console.error(err.message);
   }
@@ -52,9 +54,14 @@ export async function getFilterRecipes(params, page = 1, pageSize = PAGE_SIZE) {
         `Response status: ${res.status}. Could not filter recipes`
       );
     }
+    console.log(res);
     const data = await res.json();
-    console.log(data);
-    return data;
+    const totCount = res.headers.get("X-Total-Count");
+    const totPages = Math.ceil(totCount / pageSize);
+
+    console.log("Date returned", data, totCount, totPages);
+
+    return { data, totCount, totPages };
   } catch (err) {
     console.error(err.message);
   }
