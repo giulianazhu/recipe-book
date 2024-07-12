@@ -4,9 +4,10 @@ export default function StarRating({
   disabled = false,
   readOnly = false,
   name = "rating",
-  isPending,
+  isPending = false,
   onChange,
   value,
+  size = "medium",
 }) {
   return (
     <Rating
@@ -15,6 +16,7 @@ export default function StarRating({
       readOnly={readOnly}
       onChange={onChange}
       value={parseInt(value)}
+      size={size}
     />
   );
 }

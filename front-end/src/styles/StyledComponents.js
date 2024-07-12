@@ -42,6 +42,11 @@ export const StyledFlexBox = styled.div`
   display: flex;
   gap: 1em;
   ${(props) =>
+    props.$gap &&
+    css`
+      gap: ${props.$gap};
+    `}
+  ${(props) =>
     props.$direction &&
     css`
       flex-direction: ${props.$direction};

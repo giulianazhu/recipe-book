@@ -1,10 +1,12 @@
 import styled, { css } from "styled-components";
 import { device } from "../styles/optionStyles";
-import { StyledToggler } from "./NavBar";
+import { StyledNavLink, StyledToggler } from "./NavBar";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useRef } from "react";
 import useOutClick from "../hooks/useOutClick";
 import SearchBox from "../features/search/SearchBox";
+import { scrollTop } from "../utils/utils";
+import { StyledFlexBox } from "../styles/StyledComponents";
 
 const StyledSideBar = styled.nav`
   position: fixed;
@@ -13,14 +15,14 @@ const StyledSideBar = styled.nav`
   height: 100%;
   overflow: auto;
   display: none;
-  background-color: grey;
-  opacity: 0.8;
+  background-color: var(--color-orange-100);
+  opacity: 0.98;
   transition: left 0.5s ease-in-out;
 
   @media (max-width: ${device.md}) {
     display: flex;
     flex-flow: column;
-    max-width: 50%;
+    max-width: 100%;
     ${(props) =>
       props.$visible === "true"
         ? css`
@@ -30,12 +32,13 @@ const StyledSideBar = styled.nav`
             left: -120%;
           `}
   }
-  @media (max-width: ${device.sm}) {
-    max-width: 60%;
-  }
-  @media (max-width: ${device.xs}) {
-    max-width: 100%;
-  }
+`;
+
+const StyledNavSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 2em;
+  text-decoration: underline;
 `;
 
 export default function SideBar({ isToggle, handleToggle }) {
@@ -51,13 +54,20 @@ export default function SideBar({ isToggle, handleToggle }) {
 
   return (
     <StyledSideBar $visible={isToggle} ref={elementRef}>
-      <StyledToggler>
-        <RxHamburgerMenu onClick={handleToggle} />
-      </StyledToggler>
-      <div>
-        <h1>FILTERBOX SEARCH BOX</h1>
-        <SearchBox />
-      </div>
+      <StyledFlexBox $justify="space-between" $items="center">
+        <StyledToggler>
+          <RxHamburgerMenu onClick={handleToggle} />
+        </StyledToggler>
+        <StyledNavSection>
+          <StyledNavLink to="/add" onClick={handleToggle}>
+            Add Recipe
+          </StyledNavLink>
+          <StyledNavLink onClick={(e) => e.preventDefault()}>
+            Dummy
+          </StyledNavLink>
+        </StyledNavSection>
+      </StyledFlexBox>
+      <SearchBox handleToggle={handleToggle} />
     </StyledSideBar>
   );
 }

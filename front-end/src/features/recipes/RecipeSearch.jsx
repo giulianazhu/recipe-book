@@ -36,7 +36,8 @@ export default function RecipeSearch() {
 
   return (
     <StyledDashboard>
-      <SearchBox />
+      {/* if type ="main" will disappear at small screen */}
+      <SearchBox type="main" />
       <RecipeList
         recipes={recipes}
         totCount={totCount}

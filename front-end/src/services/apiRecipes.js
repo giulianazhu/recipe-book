@@ -73,7 +73,9 @@ export async function getFilterRecipes(
 
 export async function getRecipe(id) {
   try {
-    const res = await fetch(`${urlport}/recipes/${id}`);
+    const res = await fetch(
+      `${urlport}/recipes/${id}?&_expand=difficulty&_expand=cuisine&_expand=diet`
+    );
     if (!res.ok) {
       throw new Error(`Response status: ${res.status}. Could not get recipe`);
     }

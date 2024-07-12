@@ -1,6 +1,28 @@
+import styled from "styled-components";
+import { StyledFlexBox, StyledHeading } from "../../styles/StyledComponents";
 import StarRating from "../../ui/StarRating";
 import useAddComment from "./useAddComment";
 import { Controller, useForm } from "react-hook-form";
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+  & button {
+    padding: 0.2em 1em;
+    align-self: flex-end;
+    border: var(--color-orange-100) 2px solid;
+    border-radius: 15px;
+    background-color: var(--color-orange-300);
+  }
+`;
+
+const StyledTextBox = styled.textarea`
+  padding: 0.5em;
+  border: var(--color-sky-500) 2px solid;
+  border-radius: 15px;
+  background-color: var(--color-sky-200);
+`;
 
 export default function CommentForm({ recipeId }) {
   const { mutate: handleAddComment, isPending } = useAddComment(recipeId);
@@ -20,10 +42,10 @@ export default function CommentForm({ recipeId }) {
   }
 
   return (
-    <div>
-      <h4>Post a Review</h4>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
+    <StyledFlexBox $direction="column">
+      <StyledHeading as="h4">Post a Review</StyledHeading>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledFlexBox>
           <Controller
             control={control}
             name="rating"
@@ -34,17 +56,23 @@ export default function CommentForm({ recipeId }) {
                 name="rating"
                 isPending={isPending}
                 value={value}
+                size="large"
               />
             )}
           />
           <span>{errors?.rating && errors?.rating?.message}</span>
-        </div>
-        <div>
+        </StyledFlexBox>
+        <StyledFlexBox $direction="column">
           <label htmlFor="comment">Write a comment</label>
-          <textarea name="comment" id="comment" {...register("comment")} />
-        </div>
+          <StyledTextBox
+            name="comment"
+            id="comment"
+            {...register("comment")}
+            placeholder="Write a comment ..."
+          />
+        </StyledFlexBox>
         <button>{isPending ? "Posting" : "Post"}</button>
-      </form>
-    </div>
+      </StyledForm>
+    </StyledFlexBox>
   );
 }

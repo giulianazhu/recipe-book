@@ -94,10 +94,10 @@ const GlobalStyles = createGlobalStyle`
     --color-orange-800: #EF6C00;
     --color-orange-900: #E65100;
 
-    --color-yellow-100: #FFFDE7;   /* Very light yellow */
-    --color-yellow-200: #FFF9C4;   /* Light yellow */
-    --color-yellow-300: #FFF59D;   /* Soft yellow */
-    --color-yellow-400: #FFF176;   /* Original color */
+    --color-yellow-100: #FFFFF0;   /* Very light yellow */
+    --color-yellow-200: #FFFDE7;   /* Light yellow */
+    --color-yellow-300: #FFF9C4;   /* Soft yellow */
+    --color-yellow-400: #FFF59D;   /* Original color */
     --color-yellow-500: #FFEE58;   /* Main yellow */
     --color-yellow-600: #FFE451;   /* Darker yellow */
     --color-yellow-700: #FFD54F;   /* Deep yellow */
@@ -168,10 +168,18 @@ img {
   max-width: 100%;
 }
 
+button, a, span, label {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Standard */
+}
+
 nav, footer, main{ //aka outermost containers ==> nav, footer, pages 
   padding-inline: 2rem;
   padding-block: 1em;
 }
+
 
 `;
 

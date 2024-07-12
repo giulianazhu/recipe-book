@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { NavLink } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { device } from "../styles/optionStyles";
@@ -20,11 +20,15 @@ const StyledNavBar = styled.nav`
   }
 `;
 
-const StyledNavLink = styled(NavLink)`
+export const StyledNavLink = styled(NavLink)`
   font-size: 1.8rem;
-  @media (max-width: ${device.md}) {
-    display: none;
-  }
+  ${(props) =>
+    props.$layout === "main" &&
+    css`
+      @media (max-width: ${device.md}) {
+        display: none;
+      }
+    `}
 `;
 
 const StyledLogo = styled(NavLink)`
@@ -51,7 +55,7 @@ export const StyledToggler = styled.button`
   }
 `;
 
-export default function NavBar({ handleToggle }) {
+export default function NavBar({ handleToggle, layout }) {
   return (
     <StyledNavBar>
       <StyledLogo to="/search">
@@ -60,9 +64,15 @@ export default function NavBar({ handleToggle }) {
       <StyledToggler>
         <RxHamburgerMenu onClick={handleToggle} />
       </StyledToggler>
-      <StyledNavLink to="/search">Search</StyledNavLink>
-      <StyledNavLink to="/add">Add Recipe</StyledNavLink>
-      <StyledNavLink onClick={(e) => e.preventDefault()}>Dummy</StyledNavLink>
+      <StyledNavLink to="/search" $layout={layout}>
+        Search
+      </StyledNavLink>
+      <StyledNavLink to="/add" $layout={layout}>
+        Add Recipe
+      </StyledNavLink>
+      <StyledNavLink onClick={(e) => e.preventDefault()} $layout={layout}>
+        Dummy
+      </StyledNavLink>
     </StyledNavBar>
   );
 }

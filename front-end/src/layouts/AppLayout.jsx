@@ -29,7 +29,7 @@ export default function AppLayout() {
       <ErrorBoundary fallback={<Error />}>
         <Suspense fallback={<Loader />}>
           <SearchProvider>
-            <NavBar handleToggle={handleToggle} />
+            <NavBar handleToggle={handleToggle} layout="main" />
             <Outlet />
             <Footer />
             <SideBar isToggle={isToggle} handleToggle={handleToggle} />

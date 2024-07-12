@@ -20,9 +20,14 @@ const StyledSearchBox = styled(StyledFlexBox)`
   flex-direction: column;
   border: var(--color-yellow-100) 3px solid;
   border-radius: 15px;
-  @media (max-width: ${device.md}) {
-    display: none;
-  }
+  ${(props) =>
+    props.$type === "main" &&
+    css`
+      @media (max-width: ${device.md}) {
+        display: none;
+      }
+    `}
+  overflow-y: auto;
 `;
 
 const StyledForm = styled.form`
@@ -47,14 +52,16 @@ const StyledSearchInput = styled.span`
   overflow: hidden;
   & input {
     all: initial;
+    padding: 0.2em 0em 0.2em 0.5em;
+    flex: auto;
     font: inherit;
-    padding: 0.2em 0.5em;
   }
   & button {
     all: initial;
     margin-inline-start: auto;
-    width: 3em;
-    height: 3em;
+    width: 50px;
+    height: 50px;
+    /* flex: 1 0 25px; */
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -87,12 +94,8 @@ const StyledFilter = styled.label`
   }
 `;
 
-export default function SearchBox() {
+export default function SearchBox({ type, handleToggle }) {
   const { cuisines, diets, difficulties } = useFilters();
-
-  // const cuisines = [{ id: 1, name: "cuisineName" }];
-  // const diets = [{ id: 1, name: "cuisineName" }];
-  // const difficulties = [{ id: 1, name: "cuisineName" }];
 
   const {
     filters: { cuisineId = "", dietId = "", difficultyId = "", q = "" },
@@ -102,7 +105,7 @@ export default function SearchBox() {
   } = useCustomContext(FilterContext);
 
   return (
-    <StyledSearchBox>
+    <StyledSearchBox $type={type}>
       <StyledHeading as="h2">Search Recipe </StyledHeading>
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormRow>
@@ -115,7 +118,7 @@ export default function SearchBox() {
               value={q}
               onChange={(e) => setFilter("q", e.target.value)}
             />
-            <button type="submit">
+            <button type="submit" onClick={handleToggle}>
               <FaSearch />
             </button>
           </StyledSearchInput>
@@ -199,6 +202,7 @@ export default function SearchBox() {
             $bgcolor="var(--color-orange-300)"
             $border="var(--color-orange-100) 1px solid"
             type="submit"
+            onClick={handleToggle}
           >
             Apply Filters
           </StyledButton>

@@ -81,6 +81,14 @@ const StyledPageButton = styled(StyledButton)`
     `}
 `;
 
+const StyledDetailButton = styled(NavLink)`
+  padding: 0.2em 0.5em;
+  border: var(--color-orange-100) 1px solid;
+  border-radius: 10px;
+  background-color: var(--color-orange-300);
+  font-size: 0.9em;
+`;
+
 export default function RecipeList({ recipes, totCount, totPages, isPending }) {
   const { page, pageSize, setPageSize, setPrevPage, setNextPage } =
     useCustomContext(PageContext);
@@ -122,9 +130,9 @@ export default function RecipeList({ recipes, totCount, totPages, isPending }) {
                 <p>{recipe.diet.name}</p>
                 <p>{recipe.difficulty.name}</p>
               </div>
-              <StyledButton>
-                <NavLink to={`/search/${recipe.id}`}>Details</NavLink>
-              </StyledButton>
+              <StyledDetailButton to={`/search/${recipe.id}`}>
+                Details
+              </StyledDetailButton>
             </StyledDescBox>
           </StyledListItem>
         ))}
