@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import useFilters from "./useFilters";
 import { device } from "../../styles/optionStyles";
+import useFilters from "./useFilters";
 import {
   StyledBox,
   StyledFlexBox,
@@ -61,8 +61,28 @@ const StyledSearchInput = styled.span`
   }
 `;
 
+const StyledFilter = styled.span`
+  padding: 0.5em 0.8em;
+  border: var(--color-orange-100) solid 1px;
+  border-radius: 15px;
+  background-color: var(--color-yellow-100);
+  font-size: 0.8em;
+  cursor: pointer;
+  ${(props) =>
+    props.checked &&
+    css`
+      color: red;
+    `}
+  & input, label {
+    /* all: initial; */
+    font: inherit;
+    cursor: inherit;
+  }
+`;
+
 export default function SearchBox({ handleSubmit }) {
   const { cuisines, diets, difficulties, isPending } = useFilters();
+
   if (isPending) return <h1>Loading</h1>;
 
   return (
@@ -78,29 +98,31 @@ export default function SearchBox({ handleSubmit }) {
             </button>
           </StyledSearchInput>
         </StyledFormRow>
-        <StyledFlexBox direction="column">
+        <StyledFlexBox $direction="column">
           <StyledHeading as="h3">Filters</StyledHeading>
           <StyledBox>
             <StyledHeading as="h4">Cuisines</StyledHeading>
-            <StyledFlexBox wrap="wrap">
+            <StyledFlexBox $wrap="wrap">
               {cuisines.map((cuisine) => (
                 // temp style to all li items
                 <li key={cuisine.id} style={{ display: "inline" }}>
-                  <label htmlFor={cuisine.id}>{cuisine.name}</label>
-                  <input
-                    type="radio"
-                    //if checked false, auto left out from formdata
-                    id={cuisine.id}
-                    name="cuisineId"
-                    value={cuisine.id}
-                  />
+                  <StyledFilter>
+                    <label htmlFor={cuisine.id}>{cuisine.name}</label>
+                    <input
+                      type="radio"
+                      //if checked false, auto left out from formdata
+                      id={cuisine.id}
+                      name="cuisineId"
+                      value={cuisine.id}
+                    />
+                  </StyledFilter>
                 </li>
               ))}
             </StyledFlexBox>
           </StyledBox>
           <StyledBox>
             <StyledHeading as="h4">Dietary Preference</StyledHeading>
-            <StyledFlexBox wrap="wrap">
+            <StyledFlexBox $wrap="wrap">
               {diets.map((diet) => (
                 <li key={diet.id} style={{ display: "inline" }}>
                   <label htmlFor={diet.id}>{diet.name}</label>
@@ -116,7 +138,7 @@ export default function SearchBox({ handleSubmit }) {
           </StyledBox>
           <StyledBox>
             <StyledHeading as="h4">Difficulty Level</StyledHeading>
-            <StyledFlexBox wrap="wrap">
+            <StyledFlexBox $wrap="wrap">
               {difficulties.map((difficulty) => (
                 <li key={difficulty.id} style={{ display: "inline" }}>
                   <label htmlFor={difficulty.id}>{difficulty.name}</label>

@@ -19,7 +19,7 @@ const StyledOption = styled.button`
   cursor: pointer;
   text-decoration: underline;
   ${(props) =>
-    props.current === "true" &&
+    props.$current === "true" &&
     css`
       color: var(--color-grey-900);
     `}
@@ -43,16 +43,28 @@ const StyledListItem = styled.div`
     max-width: 100%;
     height: 150px;
     object-fit: cover;
+    border-radius: 15px;
   }
 `;
 
 //to be optimized
 const StyledDescBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-rows: auto, 1fr, auto;
   text-align: center;
+  gap: 0.2em;
+  & div {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5em;
+    font-size: 0.8em;
+  }
+  & ${StyledButton} {
+    border: var(--color-orange-100) 1px solid;
+    border-radius: 10px;
+    background-color: var(--color-orange-300);
+    font-size: 0.9em;
+  }
 `;
 
 export default function RecipeList({
@@ -73,14 +85,14 @@ export default function RecipeList({
     <StyledResultsBox>
       <StyledHeading as="h2">Total Recipes: {totCount}</StyledHeading>
 
-      <StyledFlexBox justify="flex-end" items="center">
+      <StyledFlexBox $justify="flex-end" $items="center">
         Show:
         {pageSizeOptions.map((size) => (
           <StyledOption
             key={size}
             onClick={() => handlePageSize(size)}
             disabled={pageSize === size}
-            current={pageSize === size ? "true" : "false"}
+            $current={pageSize === size ? "true" : "false"}
           >
             0 - {size} results
           </StyledOption>
@@ -91,21 +103,21 @@ export default function RecipeList({
         {recipes.map((recipe) => (
           <StyledListItem key={recipe.id}>
             <img src={`${urlport}${recipe.image}`} alt={`${recipe.image}`} />
-            <StyledDescBox direction="column" items="center">
+            <StyledDescBox>
+              <StyledHeading as="h4">{recipe.name}</StyledHeading>
               <div>
-                <StyledHeading as="h3">{recipe.name}</StyledHeading>
-                <p>
-                  <span>Difficulty: </span>
-                  {recipe.difficulty.name}
-                </p>
+                <p>{recipe.diet.name}</p>
+                <p>{recipe.difficulty.name}</p>
               </div>
-              <NavLink to={`/search/${recipe.id}`}>Details</NavLink>
+              <StyledButton>
+                <NavLink to={`/search/${recipe.id}`}>Details</NavLink>
+              </StyledButton>
             </StyledDescBox>
           </StyledListItem>
         ))}
       </StyledList>
 
-      <StyledFlexBox justify="space-between" items="center">
+      <StyledFlexBox $justify="space-between" $items="center">
         <span>Page: {page} </span>
         <StyledFlexBox>
           <StyledButton onClick={prevPage} disabled={page === 1}>
@@ -117,6 +129,5 @@ export default function RecipeList({
         </StyledFlexBox>
       </StyledFlexBox>
     </StyledResultsBox>
-    // </StyledFlexBox>
   );
 }

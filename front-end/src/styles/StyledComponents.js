@@ -32,25 +32,25 @@ export const StyledFlexBox = styled.div`
   display: flex;
   gap: 1em;
   ${(props) =>
-    props.direction &&
+    props.$direction &&
     css`
-      flex-direction: ${props.direction};
+      flex-direction: ${props.$direction};
     `}
   ${(props) =>
-    props.justify &&
+    props.$justify &&
     css`
-      justify-content: ${props.justify};
+      justify-content: ${props.$justify};
     `}
     
     ${(props) =>
-    props.items &&
+    props.$items &&
     css`
-      align-items: ${props.items};
+      align-items: ${props.$items};
     `}
     ${(props) =>
-    props.wrap &&
+    props.$wrap &&
     css`
-      flex-wrap: ${props.wrap};
+      flex-wrap: ${props.$wrap};
     `}
 `;
 
