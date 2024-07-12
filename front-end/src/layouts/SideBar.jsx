@@ -5,7 +5,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useRef } from "react";
 import useOutClick from "../hooks/useOutClick";
 import SearchBox from "../features/search/SearchBox";
-import useFilters from "../features/search/useFilters";
 
 const StyledSideBar = styled.nav`
   position: fixed;
@@ -21,7 +20,7 @@ const StyledSideBar = styled.nav`
   @media (max-width: ${device.md}) {
     display: flex;
     flex-flow: column;
-    min-width: 50%;
+    max-width: 50%;
     ${(props) =>
       props.$visible === "true"
         ? css`
@@ -32,10 +31,10 @@ const StyledSideBar = styled.nav`
           `}
   }
   @media (max-width: ${device.sm}) {
-    min-width: 60%;
+    max-width: 60%;
   }
   @media (max-width: ${device.xs}) {
-    min-width: 100%;
+    max-width: 100%;
   }
 `;
 
@@ -57,6 +56,7 @@ export default function SideBar({ isToggle, handleToggle }) {
       </StyledToggler>
       <div>
         <h1>FILTERBOX SEARCH BOX</h1>
+        <SearchBox />
       </div>
     </StyledSideBar>
   );

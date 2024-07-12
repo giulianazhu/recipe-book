@@ -21,6 +21,16 @@ export const StyledHeading = styled.h1`
 export const StyledButton = styled.button`
   border-radius: 20px;
   padding: 0.2em 0.5em;
+  ${(props) =>
+    props.$bgcolor &&
+    css`
+      background-color: ${props.$bgcolor};
+    `}
+  ${(props) =>
+    props.$border &&
+    css`
+      border: ${props.$border};
+    `}
 `;
 
 export const StyledBox = styled.div`
@@ -51,6 +61,11 @@ export const StyledFlexBox = styled.div`
     props.$wrap &&
     css`
       flex-wrap: ${props.$wrap};
+    `}
+    ${(props) =>
+    props.$flex &&
+    css`
+      flex: ${props.$flex};
     `}
 `;
 

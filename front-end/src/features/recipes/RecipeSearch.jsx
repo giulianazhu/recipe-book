@@ -1,10 +1,10 @@
-import { useReducer } from "react";
 import useFilterRecipes from "./useFilterRecipes";
 import RecipeList from "./RecipeList";
-import { pageSizeOptions } from "../../utils/constants";
 import styled from "styled-components";
 import { device } from "../../styles/optionStyles";
 import SearchBox from "../search/SearchBox";
+import useCustomContext from "../../hooks/useCustomContext";
+import { FilterContext } from "../../contexts/SearchContext";
 
 export const StyledDashboard = styled.div`
   padding-inline: 3em;
@@ -22,48 +22,10 @@ export const StyledSearchBox = styled.div`
 `;
 
 export default function RecipeSearch() {
-  const initialState = {
-    filters: {},
-    page: 1,
-    pageSize: pageSizeOptions[0],
-    appliedFilters: {},
-  };
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case "setFilter":
-        return {
-          ...state,
-          filters: {
-            ...state.filters,
-            [action.payload.key]: action.payload.value,
-          },
-        };
-      case "clear":
-        return { ...state, filters: initialState.filters };
-      case "searchReset":
-        return { ...state, page: initialState.page };
-      case "setNextPage":
-        return { ...state, page: state.page + 1 };
-      case "setPrevPage":
-        return { ...state, page: Math.max(state.page - 1, 1) };
-      case "setPageSize":
-        return { ...state, pageSize: action.payload };
-      case "setApplyFilters":
-        return { ...state, appliedFilters: state.filters };
-      default:
-        throw new Error("Unknown reducer action");
-    }
-  }
-
-  const [{ filters, page, pageSize, appliedFilters }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const { filters, page, pageSize, appliedFilters } =
+    useCustomContext(FilterContext);
 
   console.log({ filters, page, pageSize, appliedFilters });
-
-  console.log("useFilterRecipes values", appliedFilters, page, pageSize);
 
   const {
     data: { data: recipes, totCount, totPages },
@@ -72,27 +34,14 @@ export default function RecipeSearch() {
 
   console.log(recipes);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    dispatch({ type: "setApplyFilters" });
-    dispatch({ type: "searchReset" });
-  }
-
   return (
     <StyledDashboard>
-      <SearchBox handleSubmit={handleSubmit} dispatch={dispatch} />
+      <SearchBox />
       <RecipeList
         recipes={recipes}
         totCount={totCount}
         totPages={totPages}
-        // nextPage={nextPage}
-        // prevPage={prevPage}
-        page={page}
         isPending={isPending}
-        pageSize={pageSize}
-        dispatch={dispatch}
-        // handlePageSize={handlePageSize}
       />
     </StyledDashboard>
   );

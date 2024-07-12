@@ -59,7 +59,6 @@ export async function getFilterRecipes(
         `Response status: ${res.status}. Could not filter recipes`
       );
     }
-    console.log(res);
     const data = await res.json();
     const totCount = res.headers.get("X-Total-Count");
     const totPages = Math.ceil(totCount / pageSize);

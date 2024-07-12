@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import Loader from "./Loader";
 import Error from "./Error";
 import SideBar from "./SideBar";
+import SearchProvider from "../contexts/SearchContext";
 
 const StyledAppLayout = styled.div`
   min-height: 100vh;
@@ -24,16 +25,17 @@ export default function AppLayout() {
   }
 
   return (
-    // to be removed id
     <StyledAppLayout>
-      <NavBar handleToggle={handleToggle} />
       <ErrorBoundary fallback={<Error />}>
         <Suspense fallback={<Loader />}>
-          <Outlet />
+          <SearchProvider>
+            <NavBar handleToggle={handleToggle} />
+            <Outlet />
+            <Footer />
+            <SideBar isToggle={isToggle} handleToggle={handleToggle} />
+          </SearchProvider>
         </Suspense>
       </ErrorBoundary>
-      <Footer />
-      <SideBar isToggle={isToggle} handleToggle={handleToggle} />
     </StyledAppLayout>
   );
 }

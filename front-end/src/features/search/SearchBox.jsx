@@ -4,14 +4,18 @@ import { device } from "../../styles/optionStyles";
 import useFilters from "./useFilters";
 import {
   StyledBox,
+  StyledButton,
   StyledFlexBox,
   StyledFormRow,
   StyledHeading,
   StyledLabel,
 } from "../../styles/StyledComponents";
+import useCustomContext from "../../hooks/useCustomContext";
+import { FilterContext } from "../../contexts/SearchContext";
 
 const StyledSearchBox = styled(StyledFlexBox)`
   padding-inline: 1em;
+  max-width: 100%;
   height: 100%;
   flex-direction: column;
   border: var(--color-yellow-100) 3px solid;
@@ -22,6 +26,7 @@ const StyledSearchBox = styled(StyledFlexBox)`
 `;
 
 const StyledForm = styled.form`
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2em;
@@ -53,7 +58,7 @@ const StyledSearchInput = styled.span`
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-grey-500);
+    background-color: var(--color-grey-300);
     cursor: pointer;
   }
   & svg {
@@ -61,7 +66,7 @@ const StyledSearchInput = styled.span`
   }
 `;
 
-const StyledFilter = styled.span`
+const StyledFilter = styled.label`
   padding: 0.5em 0.8em;
   border: var(--color-orange-100) solid 1px;
   border-radius: 15px;
@@ -69,41 +74,46 @@ const StyledFilter = styled.span`
   font-size: 0.8em;
   cursor: pointer;
   ${(props) =>
-    props.checked &&
+    props.$checked &&
     css`
-      color: red;
+      background-color: var(--color-sky-500);
     `}
-  & input, label {
-    /* all: initial; */
+  & label {
     font: inherit;
     cursor: inherit;
   }
+  & input {
+    display: none;
+  }
 `;
 
-export default function SearchBox({ handleSubmit, dispatch }) {
-  const { cuisines, diets, difficulties, isPending } = useFilters();
+export default function SearchBox() {
+  const { cuisines, diets, difficulties } = useFilters();
 
-  if (isPending) return <h1>Loading</h1>;
+  // const cuisines = [{ id: 1, name: "cuisineName" }];
+  // const diets = [{ id: 1, name: "cuisineName" }];
+  // const difficulties = [{ id: 1, name: "cuisineName" }];
 
-  function handleChange(e, key) {
-    console.log("handleChange", key, e.target.value);
-    dispatch({
-      type: "setFilter",
-      payload: { key, value: e.target.value },
-    });
-  }
+  const {
+    filters: { cuisineId = "", dietId = "", difficultyId = "", q = "" },
+    setFilter,
+    handleSubmit,
+    resetFilters,
+  } = useCustomContext(FilterContext);
 
   return (
     <StyledSearchBox>
       <StyledHeading as="h2">Search Recipe </StyledHeading>
       <StyledForm onSubmit={handleSubmit}>
         <StyledFormRow>
-          <StyledLabel>Search by name</StyledLabel>
+          <StyledLabel htmlFor="q">Search by name</StyledLabel>
           <StyledSearchInput>
             <input
               type="text"
               name="q"
-              onChange={(e) => handleChange(e, "q")}
+              id="q"
+              value={q}
+              onChange={(e) => setFilter("q", e.target.value)}
             />
             <button type="submit">
               <FaSearch />
@@ -116,19 +126,20 @@ export default function SearchBox({ handleSubmit, dispatch }) {
             <StyledHeading as="h4">Cuisines</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {cuisines.map((cuisine) => (
-                <span key={cuisine.id}>
-                  <StyledFilter>
-                    <label htmlFor={cuisine.id}>{cuisine.name}</label>
-                    <input
-                      type="radio"
-                      //if checked false, auto left out from formdata
-                      id={cuisine.id}
-                      name="cuisineId"
-                      value={cuisine.id}
-                      onChange={(e) => handleChange(e, "cuisineId")}
-                    />
-                  </StyledFilter>
-                </span>
+                <StyledFilter
+                  $checked={parseInt(cuisineId) === parseInt(cuisine.id)}
+                  htmlFor={cuisine.name}
+                  key={cuisine.id}
+                >
+                  {cuisine.name}
+                  <input
+                    type="radio"
+                    id={cuisine.name}
+                    name="cuisineId"
+                    value={cuisine.id}
+                    onClick={(e) => setFilter("cuisineId", e.target.value)}
+                  />
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -136,16 +147,20 @@ export default function SearchBox({ handleSubmit, dispatch }) {
             <StyledHeading as="h4">Dietary Preference</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {diets.map((diet) => (
-                <span key={diet.id}>
-                  <label htmlFor={diet.id}>{diet.name}</label>
+                <StyledFilter
+                  $checked={parseInt(dietId) === parseInt(diet.id)}
+                  htmlFor={diet.name}
+                  key={diet.id}
+                >
+                  {diet.name}
                   <input
                     type="radio"
-                    id={diet.id}
+                    id={diet.name}
                     name="dietId"
                     value={diet.id}
-                    onChange={(e) => handleChange(e, "dietId")}
+                    onClick={(e) => setFilter("dietId", e.target.value)}
                   />
-                </span>
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -153,21 +168,41 @@ export default function SearchBox({ handleSubmit, dispatch }) {
             <StyledHeading as="h4">Difficulty Level</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {difficulties.map((difficulty) => (
-                <span key={difficulty.id}>
-                  <label htmlFor={difficulty.id}>{difficulty.name}</label>
+                <StyledFilter
+                  $checked={parseInt(difficultyId) === parseInt(difficulty.id)}
+                  htmlFor={difficulty.name}
+                  key={difficulty.id}
+                >
+                  {difficulty.name}
                   <input
                     type="radio"
-                    id={difficulty.id}
+                    id={difficulty.name}
                     name="difficultyId"
                     value={difficulty.id}
-                    onChange={(e) => handleChange(e, "difficultyId")}
+                    onChange={(e) => setFilter("difficultyId", e.target.value)}
                   />
-                </span>
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>
         </StyledFlexBox>
-        <button type="submit">Apply Filters</button>
+        <StyledFlexBox $justify="flex-end" $flex="auto">
+          <StyledButton
+            $bgcolor="var(--color-grey-300)"
+            $border="var(--color-grey-100) 1px solid"
+            onClick={resetFilters}
+            type="reset"
+          >
+            Reset Filters
+          </StyledButton>
+          <StyledButton
+            $bgcolor="var(--color-orange-300)"
+            $border="var(--color-orange-100) 1px solid"
+            type="submit"
+          >
+            Apply Filters
+          </StyledButton>
+        </StyledFlexBox>
       </StyledForm>
     </StyledSearchBox>
   );

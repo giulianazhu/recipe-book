@@ -8,6 +8,8 @@ import {
   StyledFlexBox,
 } from "../../styles/StyledComponents";
 import { scrollTop } from "../../utils/utils";
+import useCustomContext from "../../hooks/useCustomContext";
+import { PageContext } from "../../contexts/SearchContext";
 
 const StyledResultsBox = styled.div`
   display: grid;
@@ -20,7 +22,7 @@ const StyledOption = styled.button`
   cursor: pointer;
   text-decoration: underline;
   ${(props) =>
-    props.$current === "true" &&
+    props.disabled &&
     css`
       color: var(--color-grey-900);
     `}
@@ -29,7 +31,7 @@ const StyledOption = styled.button`
 const StyledList = styled.div`
   display: grid;
   max-height: 100%;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-auto-rows: minmax(250px, max-content);
   gap: 1em;
 `;
@@ -68,44 +70,42 @@ const StyledDescBox = styled.div`
   }
 `;
 
-export default function RecipeList({
-  recipes,
-  totCount,
-  totPages,
-  // nextPage,
-  // prevPage,
-  page,
-  isPending,
-  pageSize,
-  dispatch,
-  // handlePageSize,
-}) {
-  function nextPage() {
-    if (page < totPages) {
-      dispatch({ type: "setNextPage" });
-    }
-    scrollTop();
-  }
+const StyledPageButton = styled(StyledButton)`
+  background-color: var(--color-sky-300);
+  border: var(--color-grey-100) 1px solid;
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: var(--color-grey-300);
+      color: var(--color-grey-100);
+    `}
+`;
 
-  function prevPage() {
-    dispatch({ type: "setPrevPage" });
-    scrollTop();
-  }
+export default function RecipeList({ recipes, totCount, totPages, isPending }) {
+  const { page, pageSize, setPageSize, setPrevPage, setNextPage } =
+    useCustomContext(PageContext);
+
+  // function handleOption(size) {
+  //   console.log(pageSize, size);
+  //   setPageSize(size);
+  // }
 
   if (isPending) return <h2>Searching...</h2>;
 
   return (
     <StyledResultsBox>
-      <StyledHeading as="h2">Total Recipes: {totCount}</StyledHeading>
+      <StyledHeading as="h2">
+        {parseInt(totCount) ? `Total Recipes: ${totCount}` : "No recipes found"}
+      </StyledHeading>
 
       <StyledFlexBox $justify="flex-end" $items="center">
         Show:
         {pageSizeOptions.map((size) => (
           <StyledOption
             key={size}
-            onClick={() => dispatch({ type: "setPageSize", payload: size })}
+            onClick={() => setPageSize(size)}
+            // onClick={() => handleOption(size)}
             disabled={pageSize === size}
-            $current={pageSize === size ? "true" : "false"}
           >
             0 - {size} results
           </StyledOption>
@@ -133,12 +133,12 @@ export default function RecipeList({
       <StyledFlexBox $justify="space-between" $items="center">
         <span>Page: {page} </span>
         <StyledFlexBox>
-          <StyledButton onClick={prevPage} disabled={page === 1}>
+          <StyledPageButton onClick={setPrevPage} disabled={page === 1}>
             Prev
-          </StyledButton>
-          <StyledButton onClick={nextPage} disabled={page === totPages}>
+          </StyledPageButton>
+          <StyledPageButton onClick={setNextPage} disabled={page === totPages}>
             Next
-          </StyledButton>
+          </StyledPageButton>
         </StyledFlexBox>
       </StyledFlexBox>
     </StyledResultsBox>
