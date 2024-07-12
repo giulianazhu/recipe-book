@@ -1,10 +1,9 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import useFilterRecipes from "./useFilterRecipes";
 import RecipeList from "./RecipeList";
 import { pageSizeOptions } from "../../utils/constants";
 import styled from "styled-components";
 import { device } from "../../styles/optionStyles";
-import { scrollTop } from "../../utils/utils";
 import SearchBox from "../search/SearchBox";
 
 export const StyledDashboard = styled.div`
@@ -23,58 +22,77 @@ export const StyledSearchBox = styled.div`
 `;
 
 export default function RecipeSearch() {
-  const [filters, setFilters] = useState("all");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(pageSizeOptions[0]);
+  const initialState = {
+    filters: {},
+    page: 1,
+    pageSize: pageSizeOptions[0],
+    appliedFilters: {},
+  };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "setFilter":
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            [action.payload.key]: action.payload.value,
+          },
+        };
+      case "clear":
+        return { ...state, filters: initialState.filters };
+      case "searchReset":
+        return { ...state, page: initialState.page };
+      case "setNextPage":
+        return { ...state, page: state.page + 1 };
+      case "setPrevPage":
+        return { ...state, page: Math.max(state.page - 1, 1) };
+      case "setPageSize":
+        return { ...state, pageSize: action.payload };
+      case "setApplyFilters":
+        return { ...state, appliedFilters: state.filters };
+      default:
+        throw new Error("Unknown reducer action");
+    }
+  }
+
+  const [{ filters, page, pageSize, appliedFilters }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+
+  console.log({ filters, page, pageSize, appliedFilters });
+
+  console.log("useFilterRecipes values", appliedFilters, page, pageSize);
 
   const {
     data: { data: recipes, totCount, totPages },
     isPending,
-  } = useFilterRecipes(filters, page, pageSize);
+  } = useFilterRecipes(appliedFilters, page, pageSize);
 
   console.log(recipes);
 
   function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
 
-    const filtersObj = {};
-    for (let [key, value] of formData.entries()) {
-      if (value) {
-        filtersObj[key] = value;
-      }
-    }
-    setFilters(filtersObj);
-    setPage(1); //manually setting page to 1 --> can consider redux for future
-  }
-
-  function nextPage() {
-    if (page < totPages) setPage((prev) => prev + 1);
-    scrollTop();
-  }
-
-  function prevPage() {
-    setPage((prev) => Math.max(prev - 1, 1));
-    scrollTop();
-  }
-
-  function handlePageSize(val) {
-    setPageSize(val);
+    dispatch({ type: "setApplyFilters" });
+    dispatch({ type: "searchReset" });
   }
 
   return (
     <StyledDashboard>
-      <SearchBox handleSubmit={handleSubmit} />
+      <SearchBox handleSubmit={handleSubmit} dispatch={dispatch} />
       <RecipeList
         recipes={recipes}
         totCount={totCount}
         totPages={totPages}
-        nextPage={nextPage}
-        prevPage={prevPage}
+        // nextPage={nextPage}
+        // prevPage={prevPage}
         page={page}
         isPending={isPending}
         pageSize={pageSize}
-        handlePageSize={handlePageSize}
+        dispatch={dispatch}
+        // handlePageSize={handlePageSize}
       />
     </StyledDashboard>
   );

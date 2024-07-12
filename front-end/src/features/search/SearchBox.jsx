@@ -80,10 +80,18 @@ const StyledFilter = styled.span`
   }
 `;
 
-export default function SearchBox({ handleSubmit }) {
+export default function SearchBox({ handleSubmit, dispatch }) {
   const { cuisines, diets, difficulties, isPending } = useFilters();
 
   if (isPending) return <h1>Loading</h1>;
+
+  function handleChange(e, key) {
+    console.log("handleChange", key, e.target.value);
+    dispatch({
+      type: "setFilter",
+      payload: { key, value: e.target.value },
+    });
+  }
 
   return (
     <StyledSearchBox>
@@ -92,7 +100,11 @@ export default function SearchBox({ handleSubmit }) {
         <StyledFormRow>
           <StyledLabel>Search by name</StyledLabel>
           <StyledSearchInput>
-            <input type="text" name="name" />
+            <input
+              type="text"
+              name="q"
+              onChange={(e) => handleChange(e, "q")}
+            />
             <button type="submit">
               <FaSearch />
             </button>
@@ -104,8 +116,7 @@ export default function SearchBox({ handleSubmit }) {
             <StyledHeading as="h4">Cuisines</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {cuisines.map((cuisine) => (
-                // temp style to all li items
-                <li key={cuisine.id} style={{ display: "inline" }}>
+                <span key={cuisine.id}>
                   <StyledFilter>
                     <label htmlFor={cuisine.id}>{cuisine.name}</label>
                     <input
@@ -114,9 +125,10 @@ export default function SearchBox({ handleSubmit }) {
                       id={cuisine.id}
                       name="cuisineId"
                       value={cuisine.id}
+                      onChange={(e) => handleChange(e, "cuisineId")}
                     />
                   </StyledFilter>
-                </li>
+                </span>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -124,15 +136,16 @@ export default function SearchBox({ handleSubmit }) {
             <StyledHeading as="h4">Dietary Preference</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {diets.map((diet) => (
-                <li key={diet.id} style={{ display: "inline" }}>
+                <span key={diet.id}>
                   <label htmlFor={diet.id}>{diet.name}</label>
                   <input
                     type="radio"
                     id={diet.id}
                     name="dietId"
                     value={diet.id}
+                    onChange={(e) => handleChange(e, "dietId")}
                   />
-                </li>
+                </span>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -140,20 +153,21 @@ export default function SearchBox({ handleSubmit }) {
             <StyledHeading as="h4">Difficulty Level</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {difficulties.map((difficulty) => (
-                <li key={difficulty.id} style={{ display: "inline" }}>
+                <span key={difficulty.id}>
                   <label htmlFor={difficulty.id}>{difficulty.name}</label>
                   <input
                     type="radio"
                     id={difficulty.id}
                     name="difficultyId"
                     value={difficulty.id}
+                    onChange={(e) => handleChange(e, "difficultyId")}
                   />
-                </li>
+                </span>
               ))}
             </StyledFlexBox>
           </StyledBox>
         </StyledFlexBox>
-        <button>Apply Filters</button>
+        <button type="submit">Apply Filters</button>
       </StyledForm>
     </StyledSearchBox>
   );

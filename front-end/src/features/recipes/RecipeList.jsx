@@ -7,6 +7,7 @@ import {
   StyledButton,
   StyledFlexBox,
 } from "../../styles/StyledComponents";
+import { scrollTop } from "../../utils/utils";
 
 const StyledResultsBox = styled.div`
   display: grid;
@@ -71,17 +72,29 @@ export default function RecipeList({
   recipes,
   totCount,
   totPages,
-  nextPage,
-  prevPage,
+  // nextPage,
+  // prevPage,
   page,
   isPending,
   pageSize,
-  handlePageSize,
+  dispatch,
+  // handlePageSize,
 }) {
+  function nextPage() {
+    if (page < totPages) {
+      dispatch({ type: "setNextPage" });
+    }
+    scrollTop();
+  }
+
+  function prevPage() {
+    dispatch({ type: "setPrevPage" });
+    scrollTop();
+  }
+
   if (isPending) return <h2>Searching...</h2>;
 
   return (
-    // <StyledFlexBox direction="column">
     <StyledResultsBox>
       <StyledHeading as="h2">Total Recipes: {totCount}</StyledHeading>
 
@@ -90,7 +103,7 @@ export default function RecipeList({
         {pageSizeOptions.map((size) => (
           <StyledOption
             key={size}
-            onClick={() => handlePageSize(size)}
+            onClick={() => dispatch({ type: "setPageSize", payload: size })}
             disabled={pageSize === size}
             $current={pageSize === size ? "true" : "false"}
           >

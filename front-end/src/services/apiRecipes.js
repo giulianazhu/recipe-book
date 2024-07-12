@@ -1,5 +1,5 @@
 import { pageSizeOptions } from "../utils/constants";
-import { formatParams } from "../utils/utils";
+import { formatParams, isEmptyObj } from "../utils/utils";
 import { urlport } from "./config";
 
 export async function prefetchRecipes() {
@@ -41,14 +41,15 @@ export async function getRecipes(page = 1, pageSize = pageSizeOptions[0]) {
 }
 
 export async function getFilterRecipes(
-  params,
+  filters,
   page = 1,
   pageSize = pageSizeOptions[0]
 ) {
-  if (params === "all" || !params) return getRecipes(page, pageSize);
+  // if (filters === "all" || !filters) return getRecipes(page, pageSize);
+  if (isEmptyObj(filters)) return getRecipes(page, pageSize);
 
-  const queryParams = formatParams(params);
-  // console.log(queryParams);
+  const queryParams = formatParams(filters);
+  console.log(queryParams);
   try {
     const res = await fetch(
       `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
