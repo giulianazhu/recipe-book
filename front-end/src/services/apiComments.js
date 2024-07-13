@@ -33,7 +33,6 @@ export async function getRecipeComments(recipeId) {
 
 export async function addComment(recipeId, data) {
   try {
-    console.log("addCommmentAPI", data); //undefined dk why
     const res = await fetch(`${urlport}/recipes/${recipeId}/comments`, {
       method: "POST",
       headers: {

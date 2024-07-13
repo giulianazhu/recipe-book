@@ -45,7 +45,6 @@ export async function getFilterRecipes(
   page = 1,
   pageSize = pageSizeOptions[0]
 ) {
-  // if (filters === "all" || !filters) return getRecipes(page, pageSize);
   if (isEmptyObj(filters)) return getRecipes(page, pageSize);
 
   const queryParams = formatParams(filters);
@@ -99,6 +98,7 @@ export async function addRecipe(data) {
     }
     const result = await res.json();
     console.log("Success:", result);
+    return result;
   } catch (err) {
     console.error(err.message);
   }

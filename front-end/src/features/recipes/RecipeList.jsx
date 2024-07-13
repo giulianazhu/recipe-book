@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { urlport } from "../../services/config";
 import styled, { css } from "styled-components";
 import { pageSizeOptions } from "../../utils/constants";
@@ -7,7 +7,6 @@ import {
   StyledButton,
   StyledFlexBox,
 } from "../../styles/StyledComponents";
-import { scrollTop } from "../../utils/utils";
 import useCustomContext from "../../hooks/useCustomContext";
 import { PageContext } from "../../contexts/SearchContext";
 
@@ -16,11 +15,14 @@ const StyledResultsBox = styled.div`
   grid-template-rows: auto auto 1fr auto;
 `;
 
-const StyledOption = styled.button`
+const StyledPageSizeOption = styled.button`
   all: initial;
   font: inherit;
   cursor: pointer;
   text-decoration: underline;
+  &:hover {
+    color: var(--color-grey-900);
+  }
   ${(props) =>
     props.disabled &&
     css`
@@ -42,15 +44,19 @@ const StyledListItem = styled.div`
   flex-direction: column;
   border-radius: 15px;
   background-color: var(--color-yellow-100);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
   & img {
     max-width: 100%;
     height: 150px;
     object-fit: cover;
     border-radius: 15px;
   }
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
-//to be optimized
 const StyledDescBox = styled.div`
   display: grid;
   grid-template-rows: auto, 1fr, auto;
@@ -73,12 +79,14 @@ const StyledDescBox = styled.div`
 const StyledPageButton = styled(StyledButton)`
   background-color: var(--color-sky-300);
   border: var(--color-grey-100) 1px solid;
-  ${(props) =>
-    props.disabled &&
-    css`
-      background-color: var(--color-grey-300);
-      color: var(--color-grey-100);
-    `}
+  &:disabled {
+    color: red;
+    background-color: var(--color-grey-100);
+    color: var(--color-grey-700);
+    &:hover {
+      transform: revert;
+    }
+  }
 `;
 
 const StyledDetailButton = styled(NavLink)`
@@ -87,42 +95,43 @@ const StyledDetailButton = styled(NavLink)`
   border-radius: 10px;
   background-color: var(--color-orange-300);
   font-size: 0.9em;
+  &:hover {
+    color: var(--color-yellow-100);
+    background-color: var(--color-orange-500);
+  }
 `;
 
 export default function RecipeList({ recipes, totCount, totPages, isPending }) {
   const { page, pageSize, setPageSize, setPrevPage, setNextPage } =
     useCustomContext(PageContext);
 
-  // function handleOption(size) {
-  //   console.log(pageSize, size);
-  //   setPageSize(size);
-  // }
+  const navigate = useNavigate();
 
-  if (isPending) return <h2>Searching...</h2>;
+  if (isPending) return <StyledHeading as="h4">Searching...</StyledHeading>;
 
   return (
     <StyledResultsBox>
-      <StyledHeading as="h2">
-        {parseInt(totCount) ? `Total Recipes: ${totCount}` : "No recipes found"}
-      </StyledHeading>
+      <StyledHeading as="h2">Results: {totCount}</StyledHeading>
 
       <StyledFlexBox $justify="flex-end" $items="center">
         Show:
         {pageSizeOptions.map((size) => (
-          <StyledOption
+          <StyledPageSizeOption
             key={size}
             onClick={() => setPageSize(size)}
-            // onClick={() => handleOption(size)}
             disabled={pageSize === size}
           >
             0 - {size} results
-          </StyledOption>
+          </StyledPageSizeOption>
         ))}
       </StyledFlexBox>
 
       <StyledList>
         {recipes.map((recipe) => (
-          <StyledListItem key={recipe.id}>
+          <StyledListItem
+            key={recipe.id}
+            onClick={() => navigate(`/search/${recipe.id}`)}
+          >
             <img src={`${urlport}${recipe.image}`} alt={`${recipe.image}`} />
             <StyledDescBox>
               <StyledHeading as="h4">{recipe.name}</StyledHeading>

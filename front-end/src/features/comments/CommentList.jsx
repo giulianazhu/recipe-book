@@ -32,7 +32,6 @@ const StyledComment = styled.div`
 
 export default function CommentList({ comments }) {
   const avgRating = calcArrObjValAvg(comments, "rating");
-  console.log(avgRating);
 
   return (
     <StyledCommentSection>

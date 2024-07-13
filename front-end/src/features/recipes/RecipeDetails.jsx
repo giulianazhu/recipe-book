@@ -11,6 +11,7 @@ import {
 } from "../../styles/StyledComponents";
 import { calcArrObjValAvg } from "../../utils/utils";
 import StarRating from "../../ui/StarRating";
+import Loader from "../../layouts/Loader";
 
 const StyledRecipePage = styled.div`
   padding-inline: 15%;
@@ -84,13 +85,10 @@ export default function RecipeDetails() {
   } = useRecipe(recipeId);
   0;
 
-  if (isPending) return <div>Pending...</div>;
+  if (isPending) return <Loader />;
 
-  console.log(instructions);
   const avgRating = calcArrObjValAvg(comments, "rating");
-  const instructionSteps = instructions.split(". ");
-
-  console.log(instructionSteps);
+  const instructionSteps = instructions?.split(". ") ?? []; //keep getting undefined error, not sure why
 
   return (
     <StyledRecipePage>

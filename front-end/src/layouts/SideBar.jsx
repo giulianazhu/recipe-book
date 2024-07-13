@@ -5,7 +5,6 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useRef } from "react";
 import useOutClick from "../hooks/useOutClick";
 import SearchBox from "../features/search/SearchBox";
-import { scrollTop } from "../utils/utils";
 import { StyledFlexBox } from "../styles/StyledComponents";
 
 const StyledSideBar = styled.nav`
@@ -38,7 +37,6 @@ const StyledNavSection = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 2em;
-  text-decoration: underline;
 `;
 
 export default function SideBar({ isToggle, handleToggle }) {

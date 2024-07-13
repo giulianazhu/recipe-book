@@ -5,6 +5,8 @@ import { device } from "../../styles/optionStyles";
 import SearchBox from "../search/SearchBox";
 import useCustomContext from "../../hooks/useCustomContext";
 import { FilterContext } from "../../contexts/SearchContext";
+import Loader from "../../layouts/Loader";
+import Error from "../../layouts/Error";
 
 export const StyledDashboard = styled.div`
   padding-inline: 3em;
@@ -22,17 +24,17 @@ export const StyledSearchBox = styled.div`
 `;
 
 export default function RecipeSearch() {
-  const { filters, page, pageSize, appliedFilters } =
-    useCustomContext(FilterContext);
-
-  console.log({ filters, page, pageSize, appliedFilters });
+  const { page, pageSize, appliedFilters } = useCustomContext(FilterContext);
 
   const {
     data: { data: recipes, totCount, totPages },
     isPending,
+    isError,
+    error,
   } = useFilterRecipes(appliedFilters, page, pageSize);
 
-  console.log(recipes);
+  if (isPending) return <Loader />;
+  if (isError) return <Error>{error.message}</Error>;
 
   return (
     <StyledDashboard>

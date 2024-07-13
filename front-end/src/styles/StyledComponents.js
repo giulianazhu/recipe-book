@@ -16,11 +16,19 @@ export const StyledPage = styled.div`
 
 export const StyledHeading = styled.h1`
   padding-block: 0.5em;
+  ${(props) =>
+    props.$color &&
+    css`
+      color: ${props.$color};
+    `}
 `;
 
 export const StyledButton = styled.button`
   border-radius: 20px;
   padding: 0.2em 0.5em;
+  &:hover {
+    transform: scale(1.1);
+  }
   ${(props) =>
     props.$bgcolor &&
     css`
@@ -74,18 +82,40 @@ export const StyledFlexBox = styled.div`
     `}
 `;
 
+export const StyledLabel = styled.label``;
+
 export const StyledFormRow = styled.div`
   width: 100%;
   display: flex;
-  flex-flow: wrap;
-  align-items: center;
-  gap: 1em;
+  flex-flow: column;
+  gap: 0.5em;
 `;
 
-export const StyledLabel = styled.label``;
-
-export const StyledInput = styled.input`
-  padding: 0.3em 0.5em;
-  width: 100%;
+// ref: https://dev.to/danireptor/how-to-style-and-customize-html-file-input-in-react-54fo
+export const StyledUploader = styled.div`
+  height: 25rem;
+  flex: auto;
+  border: var(--color-sky-100) 2px solid;
   border-radius: 15px;
+  background-color: var(--color-sky-300);
+  background-image: url("../../public/upload.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  ${(props) =>
+    props.$upload &&
+    css`
+      background-image: ${`url(${props.$upload})`};
+      background-color: var(--color-sky-300);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no repeat;
+    `}
+  & input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
 `;

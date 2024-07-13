@@ -10,7 +10,7 @@ const StyledNavBar = styled.nav`
   display: flex;
   align-items: center;
   gap: 2em;
-  background-color: white;
+  background-color: var(--color-yellow-100);
   opacity: 0.7;
   @media (max-width: ${device.md}) {
     background-image: url("../../public/chef.svg");
@@ -21,7 +21,11 @@ const StyledNavBar = styled.nav`
 `;
 
 export const StyledNavLink = styled(NavLink)`
+  padding: 0.2em 0.5em;
   font-size: 1.8rem;
+  &:hover {
+    color: var(--color-orange-900);
+  }
   ${(props) =>
     props.$layout === "main" &&
     css`
@@ -38,6 +42,9 @@ const StyledLogo = styled(NavLink)`
   width: 3em;
   height: 3em;
   flex: 0 0 3em;
+  &:hover {
+    background-color: var(--color-orange-300);
+  }
   @media (max-width: ${device.md}) {
     display: none;
   }
@@ -49,6 +56,9 @@ export const StyledToggler = styled.button`
   color: inherit;
   font-size: 2.5em;
   cursor: pointer;
+  &:hover {
+    color: var(--color-orange-900);
+  }
   @media (max-width: ${device.md}) {
     display: flex;
     align-items: center;

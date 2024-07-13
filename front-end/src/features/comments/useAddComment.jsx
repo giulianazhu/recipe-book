@@ -3,7 +3,7 @@ import { addComment } from "../../services/apiComments";
 
 export default function useAddComment(recipeId) {
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: (data) => addComment(recipeId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes", recipeId] });
@@ -14,5 +14,5 @@ export default function useAddComment(recipeId) {
       console.err("Error", err.message);
     },
   });
-  return { mutate, isPending };
+  return { mutate, isPending, isError, error };
 }

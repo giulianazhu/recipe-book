@@ -15,11 +15,13 @@ export default function useRecipe(recipeId) {
       );
     },
   });
+
   const { data: comments, isPending: isPendingComments } = useQuery({
     queryKey: ["comments", recipeId],
     queryFn: () => getRecipeComments(recipeId),
   });
 
+  console.log(recipe, comments);
   return {
     data: { ...recipe, comments },
     isPending: isPendingRecipe || isPendingComments,

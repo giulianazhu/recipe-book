@@ -3,6 +3,7 @@ import { StyledFlexBox, StyledHeading } from "../../styles/StyledComponents";
 import StarRating from "../../ui/StarRating";
 import useAddComment from "./useAddComment";
 import { Controller, useForm } from "react-hook-form";
+import Error from "../../layouts/Error";
 
 const StyledForm = styled.form`
   display: flex;
@@ -22,24 +23,40 @@ const StyledTextBox = styled.textarea`
   border: var(--color-sky-500) 2px solid;
   border-radius: 15px;
   background-color: var(--color-sky-200);
+  &:focus {
+    outline: none;
+    border: var(--color-blue-500) 2px solid;
+  }
 `;
 
 export default function CommentForm({ recipeId }) {
-  const { mutate: handleAddComment, isPending } = useAddComment(recipeId);
+  const {
+    mutate: handleAddComment,
+    isPending,
+    isError,
+    error,
+  } = useAddComment(recipeId);
 
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm();
 
   function onSubmit(data) {
     data.date = new Date().toISOString();
     data.rating = parseInt(data.rating);
     console.log("data sent", JSON.stringify(data));
-    handleAddComment(data);
+    handleAddComment(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   }
+
+  if (isError) return <Error>{error.message}</Error>;
 
   return (
     <StyledFlexBox $direction="column">
@@ -59,6 +76,7 @@ export default function CommentForm({ recipeId }) {
                 size="large"
               />
             )}
+            disabled={isPending}
           />
           <span>{errors?.rating && errors?.rating?.message}</span>
         </StyledFlexBox>
@@ -67,11 +85,11 @@ export default function CommentForm({ recipeId }) {
           <StyledTextBox
             name="comment"
             id="comment"
-            {...register("comment")}
+            {...register("comment", { disabled: isPending })}
             placeholder="Write a comment ..."
           />
         </StyledFlexBox>
-        <button>{isPending ? "Posting" : "Post"}</button>
+        <button disabled={isPending}>{isPending ? "Posting" : "Post"}</button>
       </StyledForm>
     </StyledFlexBox>
   );

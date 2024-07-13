@@ -44,29 +44,32 @@ const StyledForm = styled.form`
 `;
 
 const StyledSearchInput = styled.span`
-  width: 100%;
   display: flex;
-  border: 2px black solid;
+  border: var(--color-grey-500) 2px solid;
   border-radius: 15px;
   background-color: white;
   overflow: hidden;
   & input {
     all: initial;
     padding: 0.2em 0em 0.2em 0.5em;
-    flex: auto;
+    width: 100%;
     font: inherit;
   }
   & button {
+    //button wrapping search logo svg
     all: initial;
     margin-inline-start: auto;
     width: 50px;
     height: 50px;
-    /* flex: 1 0 25px; */
+    flex: 0 0 50px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     background-color: var(--color-grey-300);
     cursor: pointer;
+    &:hover {
+      color: white;
+    }
   }
   & svg {
     width: 100%;
@@ -80,10 +83,14 @@ const StyledFilter = styled.label`
   background-color: var(--color-yellow-100);
   font-size: 0.8em;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
   ${(props) =>
     props.$checked &&
     css`
       background-color: var(--color-sky-500);
+      transform: scale(1.05);
     `}
   & label {
     font: inherit;
@@ -94,8 +101,13 @@ const StyledFilter = styled.label`
   }
 `;
 
+const StyledSearchButton = styled(StyledButton)`
+  font-size: 0.8em;
+  flex: auto;
+`;
+
 export default function SearchBox({ type, handleToggle }) {
-  const { cuisines, diets, difficulties } = useFilters();
+  const { cuisines, diets, difficulties, isPending } = useFilters();
 
   const {
     filters: { cuisineId = "", dietId = "", difficultyId = "", q = "" },
@@ -103,6 +115,8 @@ export default function SearchBox({ type, handleToggle }) {
     handleSubmit,
     resetFilters,
   } = useCustomContext(FilterContext);
+
+  if (isPending) return <h1>loading</h1>;
 
   return (
     <StyledSearchBox $type={type}>
@@ -189,23 +203,23 @@ export default function SearchBox({ type, handleToggle }) {
             </StyledFlexBox>
           </StyledBox>
         </StyledFlexBox>
-        <StyledFlexBox $justify="flex-end" $flex="auto">
-          <StyledButton
+        <StyledFlexBox $justify="center" $flex="auto">
+          <StyledSearchButton
             $bgcolor="var(--color-grey-300)"
             $border="var(--color-grey-100) 1px solid"
             onClick={resetFilters}
             type="reset"
           >
             Reset Filters
-          </StyledButton>
-          <StyledButton
+          </StyledSearchButton>
+          <StyledSearchButton
             $bgcolor="var(--color-orange-300)"
             $border="var(--color-orange-100) 1px solid"
             type="submit"
             onClick={handleToggle}
           >
             Apply Filters
-          </StyledButton>
+          </StyledSearchButton>
         </StyledFlexBox>
       </StyledForm>
     </StyledSearchBox>
