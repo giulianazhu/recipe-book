@@ -1,7 +1,6 @@
 import { createContext, useReducer } from "react";
 import { pageSizeOptions } from "../utils/constants";
 import { scrollTop } from "../utils/utils";
-import useFilters from "../features/search/useFilters";
 
 export const FilterContext = createContext();
 export const PageContext = createContext();
@@ -41,8 +40,6 @@ function reducer(state, action) {
 }
 
 export default function SearchProvider({ children }) {
-  // const { cuisines, diets, difficulties } = useFilters();
-
   const [{ filters, page, pageSize, appliedFilters }, dispatch] = useReducer(
     reducer,
     initialState

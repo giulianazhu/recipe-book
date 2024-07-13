@@ -103,8 +103,14 @@ export default function AddRecipeForm() {
     mode: "onBlur",
   });
 
-  const { cuisines, diets, difficulties, isPending: isLoading } = useFilters();
-  const { mutate: handleAddRecipe, isPending } = useAddRecipe();
+  const {
+    cuisines = [],
+    diets = [],
+    difficulties = [],
+    isPending: isLoading,
+  } = useFilters();
+
+  const { mutate: handleAddRecipe, isPending, isError, error } = useAddRecipe();
 
   function handleUpload(file) {
     if (file) {

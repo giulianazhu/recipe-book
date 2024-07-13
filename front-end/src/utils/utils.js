@@ -13,7 +13,7 @@ export function calcArrObjValAvg(arr, property) {
     avg += el[property];
   }
   avg /= arr.length;
-  return avg.toFixed(1);
+  return typeof avg === "number" && !isNaN(avg) ? avg.toFixed(1) : 0;
 }
 
 export function calcPageItems(page, pageSize) {

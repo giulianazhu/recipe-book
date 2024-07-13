@@ -118,7 +118,9 @@ export default function RecipeList({ recipes, totCount, totPages, isPending }) {
         {pageSizeOptions.map((size) => (
           <StyledPageSizeOption
             key={size}
-            onClick={() => setPageSize(size)}
+            onClick={() => {
+              setPageSize(size);
+            }}
             disabled={pageSize === size}
           >
             0 - {size} results

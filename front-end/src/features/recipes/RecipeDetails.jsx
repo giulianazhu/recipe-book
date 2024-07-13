@@ -12,6 +12,7 @@ import {
 import { calcArrObjValAvg } from "../../utils/utils";
 import StarRating from "../../ui/StarRating";
 import Loader from "../../layouts/Loader";
+import Error from "../../layouts/Error";
 
 const StyledRecipePage = styled.div`
   padding-inline: 15%;
@@ -70,25 +71,26 @@ const StyledList = styled.ol`
 export default function RecipeDetails() {
   const { id: recipeId } = useParams();
 
-  const {
-    data: {
-      name,
-      ingredients,
-      instructions,
-      image,
-      comments,
-      cuisine,
-      diet,
-      difficulty,
-    },
-    isPending,
-  } = useRecipe(recipeId);
+  const { data, isPending, isError, error } = useRecipe(recipeId);
   0;
 
-  if (isPending) return <Loader />;
+  const {
+    name = "",
+    ingredients = [],
+    instructions = "",
+    image = "",
+    comments = [],
+    cuisine = {},
+    diet = {},
+    difficulty = {},
+  } = data;
 
   const avgRating = calcArrObjValAvg(comments, "rating");
-  const instructionSteps = instructions?.split(". ") ?? []; //keep getting undefined error, not sure why
+  const instructionSteps = instructions?.split(". ") ?? [];
+
+  if (isPending) return <Loader />;
+  if (isError)
+    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 
   return (
     <StyledRecipePage>

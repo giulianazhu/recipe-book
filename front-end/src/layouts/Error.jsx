@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledHeading } from "../styles/StyledComponents";
+import { StyledButton, StyledHeading } from "../styles/StyledComponents";
 
 const StyledError = styled.div`
   width: 100%;
@@ -16,10 +16,23 @@ const StyledErrorWrap = styled.div`
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  gap: 1.5em;
+  text-align: center;
 `;
 
 const StyledErrorHeading = styled(StyledHeading)`
-  color: var(--color-red-600);
+  color: var(--color-red-500);
+`;
+
+const StyledReloadButton = styled(StyledButton)`
+  padding: 0.5em 0.8em;
+  border: var(--color-red-400) 2px solid;
+  background-color: var(--color-red-500);
+  color: var(--color-yellow-100);
+  &:hover {
+    border: var(--color-orange-300) 2px solid;
+    background-color: var(--color-orange-500);
+  }
 `;
 
 export default function Error({ children }) {
@@ -29,8 +42,10 @@ export default function Error({ children }) {
         <StyledErrorHeading as="h1">
           Oops! Something went wrong...
         </StyledErrorHeading>
-        <div>{children}</div>
-        <button onClick={() => window.location.reload()}>Reload</button>
+        <StyledHeading as="h4">{children}</StyledHeading>
+        <StyledReloadButton onClick={() => window.location.reload()}>
+          Reload
+        </StyledReloadButton>
       </StyledErrorWrap>
     </StyledError>
   );

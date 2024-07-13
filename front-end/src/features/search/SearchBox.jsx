@@ -12,6 +12,9 @@ import {
 } from "../../styles/StyledComponents";
 import useCustomContext from "../../hooks/useCustomContext";
 import { FilterContext } from "../../contexts/SearchContext";
+import Error from "../../layouts/Error";
+import { useLocation, useNavigate } from "react-router-dom";
+import { scrollTop } from "../../utils/utils";
 
 const StyledSearchBox = styled(StyledFlexBox)`
   padding-inline: 1em;
@@ -107,7 +110,8 @@ const StyledSearchButton = styled(StyledButton)`
 `;
 
 export default function SearchBox({ type, handleToggle }) {
-  const { cuisines, diets, difficulties, isPending } = useFilters();
+  const { cuisines, diets, difficulties, isPending, isError, error } =
+    useFilters();
 
   const {
     filters: { cuisineId = "", dietId = "", difficultyId = "", q = "" },
@@ -117,6 +121,8 @@ export default function SearchBox({ type, handleToggle }) {
   } = useCustomContext(FilterContext);
 
   if (isPending) return <h1>loading</h1>;
+  if (isError)
+    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 
   return (
     <StyledSearchBox $type={type}>
@@ -207,7 +213,10 @@ export default function SearchBox({ type, handleToggle }) {
           <StyledSearchButton
             $bgcolor="var(--color-grey-300)"
             $border="var(--color-grey-100) 1px solid"
-            onClick={resetFilters}
+            onClick={() => {
+              resetFilters();
+              scrollTop();
+            }}
             type="reset"
           >
             Reset Filters

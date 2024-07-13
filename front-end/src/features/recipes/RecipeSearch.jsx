@@ -34,7 +34,8 @@ export default function RecipeSearch() {
   } = useFilterRecipes(appliedFilters, page, pageSize);
 
   if (isPending) return <Loader />;
-  if (isError) return <Error>{error.message}</Error>;
+  if (isError)
+    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 
   return (
     <StyledDashboard>

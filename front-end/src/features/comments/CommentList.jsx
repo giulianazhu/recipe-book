@@ -30,7 +30,7 @@ const StyledComment = styled.div`
   }
 `;
 
-export default function CommentList({ comments }) {
+export default function CommentList({ comments = [] }) {
   const avgRating = calcArrObjValAvg(comments, "rating");
 
   return (

@@ -63,7 +63,6 @@ export async function getFilterRecipes(
     const totPages = Math.ceil(totCount / pageSize);
 
     console.log("Date returned", data, totCount, totPages);
-
     return { data, totCount, totPages };
   } catch (err) {
     console.error(err.message);

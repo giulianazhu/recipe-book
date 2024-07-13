@@ -13,7 +13,7 @@ const StyledNavBar = styled.nav`
   background-color: var(--color-yellow-100);
   opacity: 0.7;
   @media (max-width: ${device.md}) {
-    background-image: url("../../public/chef.svg");
+    background-image: url("/chef.svg");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
