@@ -15,7 +15,7 @@ export default function useFilters() {
   });
 
   const [cuisines, diets, difficulties] = data;
-  console.log(cuisines.data, diets.data, difficulties.data);
+  // console.log(cuisines.data, diets.data, difficulties.data);
 
   return {
     cuisines: cuisines.data,

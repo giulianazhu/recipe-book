@@ -7,6 +7,7 @@ import SearchPage from "./pages/SearchPage";
 import RecipePage from "./pages/RecipePage";
 import AppLayout from "./layouts/AppLayout";
 import GlobalStyles from "../src/styles/globalStyles";
+import RecipeList from "./features/recipes/RecipeList";
 
 function App() {
   const queryClient = new QueryClient({
@@ -27,7 +28,9 @@ function App() {
           <Route path="home" element={<HomePage />} />
           <Route element={<AppLayout />}>
             <Route path="add" element={<AddPage />} />
-            <Route path="search" element={<SearchPage />} />
+            <Route element={<SearchPage />}>
+              <Route path="search" element={<RecipeList />} />
+            </Route>
             <Route path="search/:id" element={<RecipePage />} />
           </Route>
         </Routes>

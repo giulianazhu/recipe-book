@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { urlport } from "../../services/config";
 import styled, { css } from "styled-components";
 import { pageSizeOptions } from "../../utils/constants";
@@ -7,8 +7,8 @@ import {
   StyledButton,
   StyledFlexBox,
 } from "../../styles/StyledComponents";
-import useCustomContext from "../../hooks/useCustomContext";
-import { PageContext } from "../../contexts/SearchContext";
+import useFilterRecipes from "./useFilterRecipes";
+import { useEffect, useRef, useState } from "react";
 
 const StyledResultsBox = styled.div`
   display: grid;
@@ -101,13 +101,43 @@ const StyledDetailButton = styled(NavLink)`
   }
 `;
 
-export default function RecipeList({ recipes, totCount, totPages, isPending }) {
-  const { page, pageSize, setPageSize, setPrevPage, setNextPage } =
-    useCustomContext(PageContext);
+export default function RecipeList() {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(pageSizeOptions[0]);
+
+  const [searchParams] = useSearchParams();
+  const prevQueries = useRef(searchParams.toString());
 
   const navigate = useNavigate();
 
-  if (isPending) return <StyledHeading as="h4">Searching...</StyledHeading>;
+  useEffect(
+    //to reset page back to 1 if query changed
+    function () {
+      console.log(searchParams.toString());
+      const currQueries = searchParams.toString();
+      if (prevQueries !== currQueries) {
+        setPage(1);
+        prevQueries.current = currQueries;
+      }
+    },
+    [searchParams]
+  );
+
+  const filters = {};
+  for (const [key, value] of searchParams.entries()) {
+    if (value && value !== "null") {
+      filters[key] = value;
+    } else continue;
+  }
+
+  const {
+    data: { data: recipes, totCount, totPages },
+    isPending,
+  } = useFilterRecipes(filters, page, pageSize);
+
+  if (isPending) return <h1>Pending</h1>;
+
+  console.log(recipes);
 
   return (
     <StyledResultsBox>
@@ -152,10 +182,18 @@ export default function RecipeList({ recipes, totCount, totPages, isPending }) {
       <StyledFlexBox $justify="space-between" $items="center">
         <span>Page: {page} </span>
         <StyledFlexBox>
-          <StyledPageButton onClick={setPrevPage} disabled={page === 1}>
+          <StyledPageButton
+            // onClick={setPrevPage} disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+          >
             Prev
           </StyledPageButton>
-          <StyledPageButton onClick={setNextPage} disabled={page === totPages}>
+          <StyledPageButton
+            // onClick={setNextPage} disabled={page === totPages}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totPages))}
+            disabled={page === totPages}
+          >
             Next
           </StyledPageButton>
         </StyledFlexBox>

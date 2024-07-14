@@ -48,6 +48,7 @@ export async function getFilterRecipes(
   if (isEmptyObj(filters)) return getRecipes(page, pageSize);
 
   const queryParams = formatParams(filters);
+  //params turned to object first to pass into query key and then turned back into url search param to put in the url
   console.log(queryParams);
   try {
     const res = await fetch(
