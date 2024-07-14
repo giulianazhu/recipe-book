@@ -15,7 +15,7 @@ const StyledAppLayout = styled.div`
 `;
 
 export default function AppLayout() {
-  // const methods = useForm();
+  const methods = useForm();
 
   const [isToggle, setIsToggle] = useState("false");
 
@@ -25,12 +25,12 @@ export default function AppLayout() {
 
   return (
     <StyledAppLayout>
-      {/* <FormProvider {...methods}> */}
-      <NavBar handleToggle={handleToggle} layout="main" />
-      <Outlet />
-      <Footer />
-      <SideBar isToggle={isToggle} handleToggle={handleToggle} />
-      {/* </FormProvider> */}
+      <FormProvider {...methods}>
+        <NavBar handleToggle={handleToggle} layout="main" />
+        <Outlet />
+        <Footer />
+        <SideBar isToggle={isToggle} handleToggle={handleToggle} />
+      </FormProvider>
     </StyledAppLayout>
   );
 }

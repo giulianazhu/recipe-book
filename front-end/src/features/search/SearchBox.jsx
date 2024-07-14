@@ -12,9 +12,8 @@ import {
 } from "../../styles/StyledComponents";
 import Error from "../../layouts/Error";
 import { formatParams, scrollTop } from "../../utils/utils";
-import { useForm, useFormContext } from "react-hook-form";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const StyledSearchBox = styled(StyledFlexBox)`
   padding-inline: 1em;
@@ -88,6 +87,7 @@ const StyledFilter = styled.label`
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
+    background-color: var(--color-sky-300);
   }
   ${(props) =>
     props.$checked &&
@@ -96,13 +96,14 @@ const StyledFilter = styled.label`
       transform: scale(1.05);
     `}
   & label {
-    font: inherit;
     cursor: inherit;
   }
   & input {
-    /* display: none; */
+    /* display: none; */ //works but just in case...
+    /* visibility: hidden;doesnt remove the radio button space*/
+    opacity: 0; //fallback for older browers??? but like visibility does not remove space
+    appearance: none;
   }
-  opacity: 0.5;
 `;
 
 const StyledSearchButton = styled(StyledButton)`
@@ -121,16 +122,21 @@ export default function SearchBox({ type, handleToggle }) {
   } = useFilters();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
 
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, setValue, watch } = useFormContext({
     defaultValues: { q: "", cuisineId: "", dietId: "", difficultyId: "" },
   });
 
-  // const { register, handleSubmit, reset, getValues } = useFormContext({
-  //   defaultValues: { q: "", cuisineId: "", dietId: "", difficultyId: "" },
-  // });
+  const watchQuery = watch("q");
+  const watchCuisineId = watch("cuisineId");
+  const watchDietId = watch("dietId");
+  const watchDifficultyId = watch("difficultyId");
+
+  console.log({
+    cuisine: watchCuisineId,
+    diet: watchDietId,
+    diff: watchDifficultyId,
+  });
 
   function onSubmit(data) {
     const params = {};
@@ -140,9 +146,8 @@ export default function SearchBox({ type, handleToggle }) {
         params[key] = val;
       }
     }
-    console.log("params", params);
-    // setSearchParams(params); discarded for btr synchronization ***access latest params value for redirection
     navigate(`/search?${formatParams(params)}`);
+    //redirection based on latest queries
   }
 
   if (isPending) return <h1>Loading...</h1>;
@@ -156,7 +161,15 @@ export default function SearchBox({ type, handleToggle }) {
         <StyledFormRow>
           <StyledLabel htmlFor="q">Search by name</StyledLabel>
           <StyledSearchInput>
-            <input type="text" name="q" id="q" {...register("q")} />
+            <input
+              type="text"
+              name="q"
+              id="q"
+              // defaultValue={watch("q")} //targeting value causes "attempt to control input" warning
+              defaultValue={watchQuery}
+              {...register("q")}
+              onChange={(e) => setValue("q", e.target.value)}
+            />
             <button type="submit" onClick={handleToggle}>
               <FaSearch />
             </button>
@@ -168,22 +181,22 @@ export default function SearchBox({ type, handleToggle }) {
             <StyledHeading as="h4">Cuisines</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {cuisines.map((cuisine) => (
-                <div key={cuisine.id}>
-                  <label
-                    htmlFor={cuisine.name}
-                    key={cuisine.id}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {cuisine.name}
-                  </label>
+                <StyledFilter
+                  htmlFor={cuisine.name}
+                  key={cuisine.name}
+                  // $checked={watch("cuisineId") === cuisine.id}
+                  $checked={watchCuisineId === cuisine.id}
+                >
+                  {cuisine.name}
                   <input
                     type="radio"
                     id={cuisine.name}
-                    name="dietId"
+                    name="cuisineId"
                     value={cuisine.id}
                     {...register("cuisineId")}
+                    onClick={() => setValue("cuisineId", cuisine.id)}
                   />
-                </div>
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -191,18 +204,22 @@ export default function SearchBox({ type, handleToggle }) {
             <StyledHeading as="h4">Dietary Preference</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {diets.map((diet) => (
-                <div key={diet.id}>
-                  <label htmlFor={diet.name} key={diet.id}>
-                    {diet.name}
-                  </label>
+                <StyledFilter
+                  htmlFor={diet.name}
+                  key={diet.name}
+                  // $checked={watch("dietId") === diet.id}
+                  $checked={watchDietId === diet.id}
+                >
+                  {diet.name}
                   <input
                     type="radio"
                     id={diet.name}
                     name="dietId"
                     value={diet.id}
                     {...register("dietId")}
+                    onClick={() => setValue("dietId", diet.id)}
                   />
-                </div>
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>
@@ -210,18 +227,23 @@ export default function SearchBox({ type, handleToggle }) {
             <StyledHeading as="h4">Difficulty Level</StyledHeading>
             <StyledFlexBox $wrap="wrap">
               {difficulties.map((difficulty) => (
-                <div key={difficulty.id}>
-                  <label htmlFor={difficulty.name} key={difficulty.id}>
-                    {difficulty.name}
-                  </label>
+                <StyledFilter
+                  htmlFor={difficulty.name}
+                  key={difficulty.name}
+                  // $checked={watch("difficultyId") === difficulty.id}
+                  $checked={watchDifficultyId === difficulty.id}
+                >
+                  {difficulty.name}
+
                   <input
                     type="radio"
                     id={difficulty.name}
-                    name="dietId"
+                    name="difficultyId"
                     value={difficulty.id}
                     {...register("difficultyId")}
+                    onClick={() => setValue("difficultyId", difficulty.id)}
                   />
-                </div>
+                </StyledFilter>
               ))}
             </StyledFlexBox>
           </StyledBox>

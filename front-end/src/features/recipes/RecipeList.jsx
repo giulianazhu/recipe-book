@@ -113,7 +113,7 @@ export default function RecipeList() {
   useEffect(
     //to reset page back to 1 if query changed
     function () {
-      console.log(searchParams.toString());
+      // console.log(searchParams.toString());
       const currQueries = searchParams.toString();
       if (prevQueries !== currQueries) {
         setPage(1);
@@ -137,7 +137,7 @@ export default function RecipeList() {
 
   if (isPending) return <h1>Pending</h1>;
 
-  console.log(recipes);
+  // console.log(recipes);
 
   return (
     <StyledResultsBox>
@@ -183,14 +183,12 @@ export default function RecipeList() {
         <span>Page: {page} </span>
         <StyledFlexBox>
           <StyledPageButton
-            // onClick={setPrevPage} disabled={page === 1}
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
           >
             Prev
           </StyledPageButton>
           <StyledPageButton
-            // onClick={setNextPage} disabled={page === totPages}
             onClick={() => setPage((prev) => Math.min(prev + 1, totPages))}
             disabled={page === totPages}
           >

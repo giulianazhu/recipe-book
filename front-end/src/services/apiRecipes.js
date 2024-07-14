@@ -49,7 +49,8 @@ export async function getFilterRecipes(
 
   const queryParams = formatParams(filters);
   //params turned to object first to pass into query key and then turned back into url search param to put in the url
-  console.log(queryParams);
+
+  // console.log(queryParams);
   try {
     const res = await fetch(
       `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`

@@ -14,7 +14,7 @@ export default function useFilterRecipes(
     queryKey: ["recipes", filters, page, pageSize],
     queryFn: () => getFilterRecipes(filters, page, pageSize),
     placeholderData: () => {
-      console.log("Using placeholder data...");
+      // console.log("Using placeholder data...");
 
       const recipes = queryClient.getQueryData(["recipes"]) ?? [];
       const maxItemsPerPage = calcPageItems(page, pageSize);
