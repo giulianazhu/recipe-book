@@ -112,14 +112,8 @@ const StyledSearchButton = styled(StyledButton)`
 `;
 
 export default function SearchBox({ type, handleToggle }) {
-  const {
-    cuisines = [],
-    diets = [],
-    difficulties = [],
-    isPending,
-    isError,
-    error,
-  } = useFilters();
+  const { cuisines, diets, difficulties, isPending, isError, error } =
+    useFilters();
 
   const navigate = useNavigate();
 

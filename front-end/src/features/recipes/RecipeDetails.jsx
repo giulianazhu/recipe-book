@@ -74,23 +74,23 @@ export default function RecipeDetails() {
   const { data, isPending, isError, error } = useRecipe(recipeId);
   0;
 
+  if (isPending) return <Loader />;
+  if (isError)
+    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
+
   const {
-    name = "",
-    ingredients = [],
-    instructions = "",
-    image = "",
-    comments = [],
-    cuisine = {},
-    diet = {},
-    difficulty = {},
+    name,
+    ingredients,
+    instructions,
+    image,
+    comments,
+    cuisine,
+    diet,
+    difficulty,
   } = data;
 
   const avgRating = calcArrObjValAvg(comments, "rating");
   const instructionSteps = instructions?.split(". ") ?? [];
-
-  if (isPending) return <Loader />;
-  if (isError)
-    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 
   return (
     <StyledRecipePage>
