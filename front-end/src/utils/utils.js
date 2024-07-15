@@ -1,10 +1,10 @@
-export function formatParams(params) {
-  //params = object with filters
-  const queryParams = new URLSearchParams();
-  for (let param in params) {
-    queryParams.append(param, params[param]);
+export function formatQueries(filters) {
+  //filters = object with filters
+  const queryFilters = new URLSearchParams();
+  for (let filter in filters) {
+    queryFilters.append(filter, filters[filter]);
   }
-  return queryParams.toString();
+  return queryFilters.toString();
 }
 
 export function calcArrObjValAvg(arr, property) {

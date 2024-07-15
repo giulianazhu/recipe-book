@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import SideBar from "./SideBar";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import SearchProvider from "../contexts/SearchContext";
 
 const StyledAppLayout = styled.div`
   min-height: 100vh;
@@ -15,8 +15,6 @@ const StyledAppLayout = styled.div`
 `;
 
 export default function AppLayout() {
-  const methods = useForm();
-
   const [isToggle, setIsToggle] = useState("false");
 
   function handleToggle() {
@@ -25,12 +23,12 @@ export default function AppLayout() {
 
   return (
     <StyledAppLayout>
-      <FormProvider {...methods}>
-        <NavBar handleToggle={handleToggle} layout="main" />
+      <NavBar handleToggle={handleToggle} layout="main" />
+      <SearchProvider>
         <Outlet />
-        <Footer />
         <SideBar isToggle={isToggle} handleToggle={handleToggle} />
-      </FormProvider>
+      </SearchProvider>
+      <Footer />
     </StyledAppLayout>
   );
 }
