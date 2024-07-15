@@ -104,9 +104,9 @@ export default function AddRecipeForm() {
   });
 
   const {
-    cuisines = [],
-    diets = [],
-    difficulties = [],
+    cuisines,
+    diets,
+    difficulties,
     isPending: isLoading,
   } = useFilters();
 

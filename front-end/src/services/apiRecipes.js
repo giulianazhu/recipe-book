@@ -1,5 +1,5 @@
 import { pageSizeOptions } from "../utils/constants";
-import { formatParams, isEmptyObj } from "../utils/utils";
+import { formatQueries, isEmptyObj } from "../utils/utils";
 import { urlport } from "./config";
 
 export async function prefetchRecipes() {
@@ -47,13 +47,13 @@ export async function getFilterRecipes(
 ) {
   if (isEmptyObj(filters)) return getRecipes(page, pageSize);
 
-  const queryParams = formatParams(filters);
-  //params turned to object first to pass into query key and then turned back into url search param to put in the url
+  const queryFilters = formatQueries(filters);
+  //filters turned to object first to pass into query key and then turned back into url search param to put in the url
 
-  // console.log(queryParams);
+  // console.log(queryFilters);
   try {
     const res = await fetch(
-      `${urlport}/recipes?${queryParams}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
+      `${urlport}/recipes?${queryFilters}&_expand=difficulty&_expand=cuisine&_expand=diet&_page=${page}&_limit=${pageSize}`
     );
     if (!res.ok) {
       throw new Error(
@@ -139,24 +139,3 @@ export async function deleteRecipe(id) {
     console.error(err.message);
   }
 }
-
-// export async function filterRecipes(params) {
-//   const searchParams = new URLSearchParams();
-//   for (let param in params) {
-//     params[param] && searchParams.append(param, params[param]);
-//   }
-
-//   try {
-//     const res = await fetch(
-//       `${urlport}/recipes?${params && searchParams.toString()}`
-//     );
-//     if (!res.ok) {
-//       throw new Error(`Response status: ${res.status}`);
-//     }
-//     const data = await res.json();
-//     console.log(data);
-//     return data;
-//   } catch (err) {
-//     console.err(err.message);
-//   }
-// }

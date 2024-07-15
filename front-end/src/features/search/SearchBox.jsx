@@ -11,9 +11,9 @@ import {
   StyledLabel,
 } from "../../styles/StyledComponents";
 import Error from "../../layouts/Error";
-import { formatParams, scrollTop } from "../../utils/utils";
-import { useFormContext } from "react-hook-form";
+import { formatQueries } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import useFilterContext from "../../contexts/useFilterContext";
 
 const StyledSearchBox = styled(StyledFlexBox)`
   padding-inline: 1em;
@@ -101,7 +101,7 @@ const StyledFilter = styled.label`
   & input {
     /* display: none; */ //works but just in case...
     /* visibility: hidden;doesnt remove the radio button space*/
-    opacity: 0; //fallback for older browers??? but like visibility does not remove space
+    opacity: 0; //fallback for older browers??? but like visibility does not remove taken space
     appearance: none;
   }
 `;
@@ -112,42 +112,16 @@ const StyledSearchButton = styled(StyledButton)`
 `;
 
 export default function SearchBox({ type, handleToggle }) {
-  const {
-    cuisines = [],
-    diets = [],
-    difficulties = [],
-    isPending,
-    isError,
-    error,
-  } = useFilters();
+  const { cuisines, diets, difficulties, isPending, isError, error } =
+    useFilters();
 
   const navigate = useNavigate();
 
-  const { register, handleSubmit, reset, setValue, watch } = useFormContext({
-    defaultValues: { q: "", cuisineId: "", dietId: "", difficultyId: "" },
-  });
+  const { filters, setFilter, resetFilters } = useFilterContext();
 
-  const watchQuery = watch("q");
-  const watchCuisineId = watch("cuisineId");
-  const watchDietId = watch("dietId");
-  const watchDifficultyId = watch("difficultyId");
-
-  console.log({
-    cuisine: watchCuisineId,
-    diet: watchDietId,
-    diff: watchDifficultyId,
-  });
-
-  function onSubmit(data) {
-    const params = {};
-    for (let [key, val] of Object.entries(data)) {
-      if (val) {
-        //remove invalid entries
-        params[key] = val;
-      }
-    }
-    navigate(`/search?${formatParams(params)}`);
-    //redirection based on latest queries
+  function handleSubmit(e) {
+    e.preventDefault();
+    navigate(`/search?${formatQueries(filters)}`);
   }
 
   if (isPending) return <h1>Loading...</h1>;
@@ -157,7 +131,7 @@ export default function SearchBox({ type, handleToggle }) {
   return (
     <StyledSearchBox $type={type}>
       <StyledHeading as="h2">Search Recipe </StyledHeading>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledFormRow>
           <StyledLabel htmlFor="q">Search by name</StyledLabel>
           <StyledSearchInput>
@@ -165,10 +139,8 @@ export default function SearchBox({ type, handleToggle }) {
               type="text"
               name="q"
               id="q"
-              // defaultValue={watch("q")} //targeting value causes "attempt to control input" warning
-              defaultValue={watchQuery}
-              {...register("q")}
-              onChange={(e) => setValue("q", e.target.value)}
+              value={filters?.q ?? ""}
+              onChange={(e) => setFilter("q", e.target.value)}
             />
             <button type="submit" onClick={handleToggle}>
               <FaSearch />
@@ -184,8 +156,7 @@ export default function SearchBox({ type, handleToggle }) {
                 <StyledFilter
                   htmlFor={cuisine.name}
                   key={cuisine.name}
-                  // $checked={watch("cuisineId") === cuisine.id}
-                  $checked={watchCuisineId === cuisine.id}
+                  $checked={filters.cuisineId === cuisine.id}
                 >
                   {cuisine.name}
                   <input
@@ -193,8 +164,8 @@ export default function SearchBox({ type, handleToggle }) {
                     id={cuisine.name}
                     name="cuisineId"
                     value={cuisine.id}
-                    {...register("cuisineId")}
-                    onClick={() => setValue("cuisineId", cuisine.id)}
+                    checked={filters.cuisineId === cuisine.id}
+                    onChange={() => setFilter("cuisineId", cuisine.id)}
                   />
                 </StyledFilter>
               ))}
@@ -207,8 +178,7 @@ export default function SearchBox({ type, handleToggle }) {
                 <StyledFilter
                   htmlFor={diet.name}
                   key={diet.name}
-                  // $checked={watch("dietId") === diet.id}
-                  $checked={watchDietId === diet.id}
+                  $checked={filters.dietId === diet.id}
                 >
                   {diet.name}
                   <input
@@ -216,8 +186,8 @@ export default function SearchBox({ type, handleToggle }) {
                     id={diet.name}
                     name="dietId"
                     value={diet.id}
-                    {...register("dietId")}
-                    onClick={() => setValue("dietId", diet.id)}
+                    checked={filters.dietId === diet.id}
+                    onChange={() => setFilter("dietId", diet.id)}
                   />
                 </StyledFilter>
               ))}
@@ -230,8 +200,7 @@ export default function SearchBox({ type, handleToggle }) {
                 <StyledFilter
                   htmlFor={difficulty.name}
                   key={difficulty.name}
-                  // $checked={watch("difficultyId") === difficulty.id}
-                  $checked={watchDifficultyId === difficulty.id}
+                  $checked={filters.difficultyId === difficulty.id}
                 >
                   {difficulty.name}
 
@@ -240,8 +209,8 @@ export default function SearchBox({ type, handleToggle }) {
                     id={difficulty.name}
                     name="difficultyId"
                     value={difficulty.id}
-                    {...register("difficultyId")}
-                    onClick={() => setValue("difficultyId", difficulty.id)}
+                    checked={filters.difficultyId === difficulty.id}
+                    onChange={() => setFilter("difficultyId", difficulty.id)}
                   />
                 </StyledFilter>
               ))}
@@ -253,8 +222,7 @@ export default function SearchBox({ type, handleToggle }) {
             $bgcolor="var(--color-grey-300)"
             $border="var(--color-grey-100) 1px solid"
             onClick={() => {
-              reset();
-              scrollTop();
+              resetFilters();
             }}
             type="reset"
           >
