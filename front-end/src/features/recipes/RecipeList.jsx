@@ -14,6 +14,7 @@ import { scrollTop } from "../../utils/utils";
 const StyledResultsBox = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr auto;
+  min-height: 100vh;
 `;
 
 const StyledPageSizeOption = styled.button`
