@@ -11,14 +11,14 @@ import {
   StyledLabel,
 } from "../../styles/StyledComponents";
 import Error from "../../layouts/Error";
-import { formatQueries } from "../../utils/utils";
+import { formatQueries, scrollTop } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import useFilterContext from "../../contexts/useFilterContext";
 
 const StyledSearchBox = styled(StyledFlexBox)`
   padding-inline: 1em;
   max-width: 100%;
-  height: 100%;
+  height: max-content;
   flex-direction: column;
   border: var(--color-yellow-100) 3px solid;
   border-radius: 15px;
@@ -121,6 +121,7 @@ export default function SearchBox({ type, handleToggle }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    scrollTop();
     navigate(`/search?${formatQueries(filters)}`);
   }
 

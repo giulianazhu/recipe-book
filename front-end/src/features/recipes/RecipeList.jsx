@@ -9,10 +9,12 @@ import {
 } from "../../styles/StyledComponents";
 import useFilterRecipes from "./useFilterRecipes";
 import { useEffect, useRef, useState } from "react";
+import { scrollTop } from "../../utils/utils";
 
 const StyledResultsBox = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr auto;
+  min-height: 100vh;
 `;
 
 const StyledPageSizeOption = styled.button`
@@ -183,13 +185,19 @@ export default function RecipeList() {
         <span>Page: {page} </span>
         <StyledFlexBox>
           <StyledPageButton
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            onClick={() => {
+              setPage((prev) => Math.max(prev - 1, 1));
+              scrollTop();
+            }}
             disabled={page === 1}
           >
             Prev
           </StyledPageButton>
           <StyledPageButton
-            onClick={() => setPage((prev) => Math.min(prev + 1, totPages))}
+            onClick={() => {
+              setPage((prev) => Math.min(prev + 1, totPages));
+              scrollTop();
+            }}
             disabled={page === totPages}
           >
             Next
