@@ -1,1 +1,3 @@
-export const urlport = "http://localhost:8080";
+const port = import.meta.env.VITE_PORT;
+
+export const urlport = `http://localhost:${port}`;
