@@ -5,7 +5,7 @@ export const StyledPage = styled.div`
   padding-inline: 2rem;
   padding-block: 1rem;
   min-height: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   @media (max-width: ${device.md}) {
     padding-inline: 1rem;
   }

@@ -12,7 +12,7 @@ import {
 } from "../../styles/StyledComponents";
 import Error from "../../layouts/Error";
 import { formatQueries, scrollTop } from "../../utils/utils";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFilterContext from "../../contexts/useFilterContext";
 
 const StyledSearchBox = styled(StyledFlexBox)`
@@ -119,10 +119,13 @@ export default function SearchBox({ type, handleToggle }) {
 
   const { filters, setFilter, resetFilters } = useFilterContext();
 
+  const location = useLocation();
+  // console.log(location.pathname);
+
   function handleSubmit(e) {
     e.preventDefault();
     scrollTop();
-    navigate(`/search?${formatQueries(filters)}`);
+    navigate(`${location.pathname}?${formatQueries(filters)}`);
   }
 
   if (isPending) return <h1>Loading...</h1>;

@@ -81,7 +81,7 @@ export default function NavBar({ handleToggle, layout }) {
         Add Recipe
       </StyledNavLink>
       <StyledNavLink to="/searchinf" $layout={layout}>
-        Search_v2
+        Search_Inf
       </StyledNavLink>
     </StyledNavBar>
   );

@@ -37,7 +37,6 @@ const StyledContainer = styled.div`
   display: flex;
   flex-flow: column;
   gap: 2rem;
-  overflow-x: auto;
 `;
 
 const StyledList = styled.div`
