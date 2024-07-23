@@ -1,3 +1,4 @@
-const port = import.meta.env.VITE_PORT;
+const URL = import.meta.env.VITE_URL;
+const PORT = import.meta.env.VITE_PORT;
 
-export const urlport = `http://localhost:${port}`;
+export const urlport = URL || `http://localhost:${PORT}`;
