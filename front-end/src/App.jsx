@@ -8,6 +8,7 @@ import RecipePage from "./pages/RecipePage";
 import AppLayout from "./layouts/AppLayout";
 import GlobalStyles from "../src/styles/globalStyles";
 import RecipeList from "./features/recipes/RecipeList";
+import InfRecipeList from "./features/recipes/InfRecipeList";
 
 function App() {
   const queryClient = new QueryClient({
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
@@ -30,6 +31,7 @@ function App() {
             <Route path="add" element={<AddPage />} />
             <Route element={<SearchPage />}>
               <Route path="search" element={<RecipeList />} />
+              <Route path="searchinf" element={<InfRecipeList />} />
             </Route>
             <Route path="search/:id" element={<RecipePage />} />
           </Route>

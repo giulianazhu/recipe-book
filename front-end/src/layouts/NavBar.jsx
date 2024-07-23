@@ -80,8 +80,8 @@ export default function NavBar({ handleToggle, layout }) {
       <StyledNavLink to="/add" $layout={layout}>
         Add Recipe
       </StyledNavLink>
-      <StyledNavLink onClick={(e) => e.preventDefault()} $layout={layout}>
-        Dummy
+      <StyledNavLink to="/searchinf" $layout={layout}>
+        Search_Inf
       </StyledNavLink>
     </StyledNavBar>
   );

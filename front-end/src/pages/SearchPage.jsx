@@ -19,12 +19,25 @@ export const StyledSearchBox = styled.div`
   border: 2px black solid;
 `;
 
+const StyledStickyRange = styled.div`
+  height: 100%;
+`;
+
+const StyledStickyWrap = styled.div`
+  position: sticky;
+  top: 9rem; //match navbar height
+`;
+
 export default function SearchPage() {
   return (
     <StyledPage as="main">
       <StyledDashboard>
-        {/* if type ="main" will disappear at small screen */}
-        <SearchBox type="main" />
+        <StyledStickyRange>
+          <StyledStickyWrap>
+            {/* if type ="main" will disappear at small screen */}
+            <SearchBox type="main" />
+          </StyledStickyWrap>
+        </StyledStickyRange>
         <Outlet />
       </StyledDashboard>
     </StyledPage>

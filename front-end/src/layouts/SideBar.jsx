@@ -60,7 +60,7 @@ export default function SideBar({ isToggle, handleToggle }) {
           <StyledNavLink to="/add" onClick={handleToggle}>
             Add Recipe
           </StyledNavLink>
-          <StyledNavLink onClick={(e) => e.preventDefault()}>
+          <StyledNavLink to="/searchinf" onClick={handleToggle}>
             Dummy
           </StyledNavLink>
         </StyledNavSection>

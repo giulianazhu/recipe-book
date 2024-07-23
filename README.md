@@ -1,11 +1,24 @@
-<!---
-Hi! We're happy you opened this file, not everyone does!
-To let us know you did, paste a capybara picture
-in the How to Run section 😊
-These will be extra points for you!
--->
+# A front-end mini-project assignment with pre-built (provided) back-end configurations
 
-# React Developer Interview Assignment
+### Key features highlight:
+
+- React hook form, react query (tanstack) including pagination and infinite query, context api, reducer, basic styled components, custom form inputs.
+
+## How to run
+
+-- Using Vite, React.js and JavaScript
+
+### Run the server
+
+- locate to the "server" folder
+- run "npm start"
+
+### Run the app
+
+- locate to the "front-end" folder
+- run "npm run dev"
+
+# React Developer Interview Assignment Details
 
 ## Introduction
 
@@ -98,17 +111,3 @@ instructions, cuisine type, and dietary preference and an image.
 Develop a recipe details page where users can view the full recipe, including ingredients, instructions, and user
 comments. Enable users to add comments and rate the recipe, displaying the average rating and updating the list of
 comments.
-
-## How to run
-
--- Using Vite, React.js and JavaScript
-
-### Run the server
-
-- cd server
-- npm start
-
-### Run the app
-
-- cd front-end
-- npm run dev
