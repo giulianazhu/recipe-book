@@ -125,8 +125,13 @@ export default function SearchBox({ type, handleToggle }) {
   function handleSubmit(e) {
     e.preventDefault();
     scrollTop();
-    navigate(`${location.pathname}?${formatQueries(filters)}`);
+    if (location.pathname === "/searchinf") {
+      navigate(`${location.pathname}?${formatQueries(filters)}`);
+    } else navigate(`/search?${formatQueries(filters)}`);
   }
+
+  //using pathname coz i have two types of search pages (pagination and infinite load)
+  //default case navigate to /search to be redirected to search page even when im filtering on mobile view with sidebar searchbox on top of a non-searchresult page
 
   if (isPending) return <h1>Loading...</h1>;
   if (isError)
