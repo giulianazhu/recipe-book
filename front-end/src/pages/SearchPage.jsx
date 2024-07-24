@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import SearchBox from "../features/search/SearchBox";
 import { device } from "../styles/optionStyles";
+import useFilters from "../features/search/useFilters";
+import Loader from "../layouts/Loader";
 
 export const StyledDashboard = styled.div`
   padding-inline: 3em;
@@ -29,13 +31,30 @@ const StyledStickyWrap = styled.div`
 `;
 
 export default function SearchPage() {
+  const { cuisines, diets, difficulties, isPending, isError, error } =
+    useFilters();
+
+  if (isPending) return <Loader />;
+
+  console.log(cuisines, diets);
+
+  const useFiltersData = {
+    cuisines,
+    diets,
+    difficulties,
+    isError,
+    error,
+  };
+
+  console.log(useFiltersData);
+
   return (
     <StyledPage as="main">
       <StyledDashboard>
         <StyledStickyRange>
           <StyledStickyWrap>
             {/* if type ="main" will disappear at small screen */}
-            <SearchBox type="main" />
+            <SearchBox type="main" useFiltersData={useFiltersData} />
           </StyledStickyWrap>
         </StyledStickyRange>
         <Outlet />

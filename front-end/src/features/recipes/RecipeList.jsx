@@ -10,6 +10,8 @@ import {
 import useFilterRecipes from "./useFilterRecipes";
 import { useEffect, useRef, useState } from "react";
 import { scrollTop } from "../../utils/utils";
+import Loader from "../../layouts/Loader";
+import Error from "../../layouts/Error";
 
 const StyledResultsBox = styled.div`
   display: grid;
@@ -135,11 +137,13 @@ export default function RecipeList() {
   const {
     data: { data: recipes, totCount, totPages },
     isPending,
+    isError,
+    error,
   } = useFilterRecipes(filters, page, pageSize);
 
-  if (isPending) return <h1>Pending</h1>;
-
-  // console.log(recipes);
+  if (isPending) return <h1>Searching...</h1>;
+  if (isError)
+    return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 
   return (
     <StyledResultsBox>

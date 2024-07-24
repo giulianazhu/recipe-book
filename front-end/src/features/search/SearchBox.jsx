@@ -111,9 +111,8 @@ const StyledSearchButton = styled(StyledButton)`
   flex: auto;
 `;
 
-export default function SearchBox({ type, handleToggle }) {
-  const { cuisines, diets, difficulties, isPending, isError, error } =
-    useFilters();
+export default function SearchBox({ type, handleToggle, useFiltersData }) {
+  const { cuisines, diets, difficulties, isError, error } = useFiltersData;
 
   const navigate = useNavigate();
 
@@ -133,7 +132,6 @@ export default function SearchBox({ type, handleToggle }) {
   //using pathname coz i have two types of search pages (pagination and infinite load)
   //default case navigate to /search to be redirected to search page even when im filtering on mobile view with sidebar searchbox on top of a non-searchresult page
 
-  if (isPending) return <h1>Loading...</h1>;
   if (isError)
     return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 

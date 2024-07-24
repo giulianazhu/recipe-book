@@ -142,13 +142,12 @@ export default function InfRecipeList() {
     isPending,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isError,
     error,
   } = useInfFilterRecipes(filters, page, pageSize);
 
-  if (isPending) return <h1>Pending</h1>;
+  if (isPending) return <h1>Searching...</h1>;
   if (isError)
     return <Error>{error?.message ?? "Error: Try again later"}</Error>;
 

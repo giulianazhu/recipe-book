@@ -6,16 +6,19 @@ import { useRef } from "react";
 import useOutClick from "../hooks/useOutClick";
 import SearchBox from "../features/search/SearchBox";
 import { StyledFlexBox } from "../styles/StyledComponents";
+import useFilters from "../features/search/useFilters";
+import Loader from "./Loader";
 
 const StyledSideBar = styled.nav`
   position: fixed;
   z-index: 100;
+  width: 100%;
   min-height: 100vh;
   height: 100%;
   overflow: auto;
   display: none;
   background-color: var(--color-orange-100);
-  opacity: 0.98;
+  /* opacity: 0.98; */
   transition: left 0.5s ease-in-out;
 
   @media (max-width: ${device.md}) {
@@ -40,6 +43,9 @@ const StyledNavSection = styled.div`
 `;
 
 export default function SideBar({ isToggle, handleToggle }) {
+  const { cuisines, diets, difficulties, isPending, isError, error } =
+    useFilters();
+
   const elementRef = useRef(null);
 
   function handleOutClick() {
@@ -49,6 +55,21 @@ export default function SideBar({ isToggle, handleToggle }) {
   }
 
   useOutClick(elementRef, handleOutClick);
+
+  if (isPending)
+    return (
+      <StyledSideBar>
+        <Loader />;
+      </StyledSideBar>
+    );
+
+  const useFiltersData = {
+    cuisines,
+    diets,
+    difficulties,
+    isError,
+    error,
+  };
 
   return (
     <StyledSideBar $visible={isToggle} ref={elementRef}>
@@ -65,7 +86,7 @@ export default function SideBar({ isToggle, handleToggle }) {
           </StyledNavLink>
         </StyledNavSection>
       </StyledFlexBox>
-      <SearchBox handleToggle={handleToggle} />
+      <SearchBox handleToggle={handleToggle} useFiltersData={useFiltersData} />
     </StyledSideBar>
   );
 }
